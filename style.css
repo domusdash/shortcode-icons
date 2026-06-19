@@ -1561,6 +1561,15 @@ dialog[open]::backdrop {
   box-shadow: 0 4px 12px rgba(75, 85, 99, 0.25);
 }
 
+.btn-share-social.system {
+  background: #111827;
+}
+.btn-share-social.system:hover {
+  background: #1F2937;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(17, 24, 39, 0.25);
+}
+
 #btn-modal-copy-link {
   width: 100%;
   display: flex;

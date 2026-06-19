@@ -1,576 +1,7 @@
 import { BrandLogos, LogosLoaded } from './logos.js';
 
-// Dataset of 30 common automated SMS shortcodes
+// NOTE: Always keep this list sorted alphabetically by brand id.
 const DirectoryData = [
-  // TECH & SECURITY
-  {
-    id: "google",
-    name: "Google",
-    fullName: "Google Verification",
-    category: "tech",
-    shortcodes: ["22000", "24444"],
-    sms: "G-765359 is your Google verification code. Don't share your code with anyone."
-  },
-  {
-    id: "microsoft",
-    name: "Microsoft",
-    fullName: "Microsoft Security",
-    category: "tech",
-    shortcodes: ["87892", "69525"],
-    sms: "Use 123456 as Microsoft account security code."
-  },
-  {
-    id: "apple",
-    name: "Apple",
-    fullName: "Apple ID Verification",
-    category: "tech",
-    shortcodes: ["81961"],
-    sms: "Your Apple ID verification code is: 987654. Do not share."
-  },
-  {
-    id: "meta",
-    name: "Meta / Facebook",
-    fullName: "Meta Security",
-    category: "tech",
-    shortcodes: ["32665"],
-    sms: "123456 is your Facebook security code."
-  },
-  {
-    id: "okta",
-    name: "Okta",
-    fullName: "Okta Verify",
-    category: "tech",
-    shortcodes: ["65821"],
-    sms: "Okta Verify: 123456 is your verification code."
-  },
-  {
-    id: "authy",
-    name: "Authy / Shop Pay",
-    fullName: "Shop Pay & Authy",
-    category: "tech",
-    shortcodes: ["22395"],
-    sms: "Shop Pay: Your login code is 123456."
-  },
-
-  // FINANCE
-  {
-    id: "chase",
-    name: "Chase Bank",
-    fullName: "Chase Alerts",
-    category: "finance",
-    shortcodes: ["24273"],
-    sms: "Chase Alert: Large transaction of $50.00 at Target."
-  },
-  {
-    id: "paypal",
-    name: "PayPal",
-    fullName: "PayPal Security",
-    category: "finance",
-    shortcodes: ["72975"],
-    sms: "PayPal: Your security code is 123456."
-  },
-  {
-    id: "venmo",
-    name: "Venmo",
-    fullName: "Venmo Verification",
-    category: "finance",
-    shortcodes: ["86753"],
-    sms: "Venmo: 123456 is your code. Don't share it."
-  },
-  {
-    id: "cashapp",
-    name: "Cash App",
-    fullName: "Cash App Verification",
-    category: "finance",
-    shortcodes: ["28515"],
-    sms: "Cash App: 123-456 is your sign-in code."
-  },
-
-  // RETAIL
-  {
-    id: "homedepot",
-    name: "Home Depot",
-    fullName: "Home Depot Orders",
-    category: "retail",
-    shortcodes: ["433768", "38698"],
-    sms: "HOME DEPOT: Your order #12345 is ready for pickup."
-  },
-  {
-    id: "walmart",
-    name: "Walmart",
-    fullName: "Walmart Alerts",
-    category: "retail",
-    shortcodes: ["85166", "60989"],
-    sms: "Walmart Pharmacy: Your prescription is ready."
-  },
-  {
-    id: "target",
-    name: "Target",
-    fullName: "Target Alerts",
-    category: "retail",
-    shortcodes: ["827438"],
-    sms: "Target: 20% off your next order! Use code SAVE20."
-  },
-  {
-    id: "kohls",
-    name: "Kohl's",
-    fullName: "Kohl's Mobile",
-    category: "retail",
-    shortcodes: ["56457"],
-    sms: "KOHL'S: Take an extra 15% off with code SUNNY15."
-  },
-  {
-    id: "amazon",
-    name: "Amazon",
-    fullName: "Amazon Delivery",
-    category: "retail",
-    shortcodes: ["38356", "20961"],
-    sms: "Your Amazon package is out for delivery."
-  },
-  {
-    id: "bestbuy",
-    name: "Best Buy",
-    fullName: "Best Buy Orders",
-    category: "retail",
-    shortcodes: ["228289"],
-    sms: "Best Buy: Your order is ready for pickup."
-  },
-  {
-    id: "costco",
-    name: "Costco",
-    fullName: "Costco Alerts",
-    category: "retail",
-    shortcodes: ["267826"],
-    sms: "Costco: Thank you for shopping! Receipt details in link."
-  },
-
-  // SERVICES & UTILITIES
-  {
-    id: "ups",
-    name: "UPS",
-    fullName: "UPS Tracking",
-    category: "services",
-    shortcodes: ["69877"],
-    sms: "UPS: Package 1Z12345 will be delivered tomorrow."
-  },
-  {
-    id: "fedex",
-    name: "FedEx",
-    fullName: "FedEx Tracking",
-    category: "services",
-    shortcodes: ["46339"],
-    sms: "FedEx: Package tracking update: Out for delivery."
-  },
-  {
-    id: "usps",
-    name: "USPS",
-    fullName: "USPS Text Tracking",
-    category: "services",
-    shortcodes: ["28777", "69975"],
-    sms: "USPS Text Tracking: Package delivered."
-  },
-  {
-    id: "walgreens",
-    name: "Walgreens",
-    fullName: "Walgreens Pharmacy",
-    category: "services",
-    shortcodes: ["92547"],
-    sms: "Walgreens: Your prescription #12345 is ready."
-  },
-  {
-    id: "cvs",
-    name: "CVS Pharmacy",
-    fullName: "CVS Alerts",
-    category: "services",
-    shortcodes: ["287747"],
-    sms: "CVS: Your order is ready for pickup."
-  },
-  {
-    id: "budget",
-    name: "Budget",
-    fullName: "Budget Rent A Car",
-    category: "services",
-    shortcodes: ["90607"],
-    sms: "BUDGET: Summer savings are here. Get up to 35% off."
-  },
-  {
-    id: "slateauto",
-    name: "Slate Auto",
-    fullName: "Slate Auto Updates",
-    category: "services",
-    shortcodes: ["68406"],
-    sms: "Slate Auto: One week until we announce the price."
-  },
-  {
-    id: "vitaminshoppe",
-    name: "The Vitamin Shoppe",
-    fullName: "The Vitamin Shoppe",
-    category: "services",
-    shortcodes: ["848747"],
-    sms: "The Vitamin Shoppe: For dads on the grind, 20% off energy."
-  },
-
-  // FOOD & DELIVERY
-  {
-    id: "starbucks",
-    name: "Starbucks",
-    fullName: "Starbucks Rewards",
-    category: "food",
-    shortcodes: ["78645"],
-    sms: "Starbucks: Happy Hour starts today at 2 PM!"
-  },
-  {
-    id: "doordash",
-    name: "DoorDash",
-    fullName: "DoorDash Delivery",
-    category: "food",
-    shortcodes: ["366747"],
-    sms: "DoorDash: Your dasher is arriving soon."
-  },
-  {
-    id: "dominos",
-    name: "Domino's",
-    fullName: "Domino's Tracker",
-    category: "food",
-    shortcodes: ["366466"],
-    sms: "Domino's: Your order is in the oven."
-  },
-  {
-    id: "uber",
-    name: "Uber",
-    fullName: "Uber updates",
-    category: "food",
-    shortcodes: ["82371", "92929"],
-    sms: "Uber: Your verification code is 1234."
-  },
-  {
-    id: "lyft",
-    name: "Lyft",
-    fullName: "Lyft updates",
-    category: "food",
-    shortcodes: ["59381"],
-    sms: "Lyft: Ride code 1234. Your driver is 2 mins away."
-  },
-  {
-    id: "discord",
-    name: "Discord",
-    fullName: "Discord Security",
-    category: "tech",
-    shortcodes: ["24365"],
-    sms: "Your Discord security code is: 123456. It expires in 5 minutes."
-  },
-  {
-    id: "twitch",
-    name: "Twitch",
-    fullName: "Twitch Alerts",
-    category: "tech",
-    shortcodes: ["84119"],
-    sms: "Twitch: Your verification code is 987654."
-  },
-  {
-    id: "github",
-    name: "GitHub",
-    fullName: "GitHub Security",
-    category: "tech",
-    shortcodes: ["44842"],
-    sms: "[GitHub] Use 123456 as two-factor authentication code for your GitHub account."
-  },
-  {
-    id: "steam",
-    name: "Steam",
-    fullName: "Steam Guard",
-    category: "tech",
-    shortcodes: ["78326"],
-    sms: "Steam Guard: Your security code is ABCDE."
-  },
-  {
-    id: "americanexpress",
-    name: "American Express",
-    fullName: "Amex Alerts",
-    category: "finance",
-    shortcodes: ["26397"],
-    sms: "Amex: Security code 12345 for online purchase transaction."
-  },
-  {
-    id: "bankofamerica",
-    name: "Bank of America",
-    fullName: "BofA Alerts",
-    category: "finance",
-    shortcodes: ["73981"],
-    sms: "BofA: Alert - Large transaction of $250.00 at Apple Store."
-  },
-  {
-    id: "capitalone",
-    name: "Capital One",
-    fullName: "Capital One Alerts",
-    category: "finance",
-    shortcodes: ["22789"],
-    sms: "Capital One: Large purchase alert at Best Buy."
-  },
-  {
-    id: "wellsfargo",
-    name: "Wells Fargo",
-    fullName: "Wells Fargo Security",
-    category: "finance",
-    shortcodes: ["93557"],
-    sms: "Wells Fargo: Your temporary access code is 123456. Expires in 10 mins."
-  },
-  {
-    id: "stripe",
-    name: "Stripe",
-    fullName: "Stripe Verify",
-    category: "finance",
-    shortcodes: ["78747"],
-    sms: "Stripe: Your login verification code is 123-456."
-  },
-  {
-    id: "coinbase",
-    name: "Coinbase",
-    fullName: "Coinbase Security",
-    category: "finance",
-    shortcodes: ["26462"],
-    sms: "Coinbase: Your 2-step verification code is 123456."
-  },
-  {
-    id: "ebay",
-    name: "eBay",
-    fullName: "eBay Security",
-    category: "retail",
-    shortcodes: ["70726"],
-    sms: "eBay: Your security code is 987654. Do not share."
-  },
-  {
-    id: "nike",
-    name: "Nike",
-    fullName: "Nike Orders",
-    category: "retail",
-    shortcodes: ["64537"],
-    sms: "Nike: Your order #98765 has been shipped. Track your package."
-  },
-  {
-    id: "netflix",
-    name: "Netflix",
-    fullName: "Netflix Updates",
-    category: "services",
-    shortcodes: ["63835"],
-    sms: "Netflix: Your verification code is 123456. Don't share."
-  },
-  {
-    id: "verizon",
-    name: "Verizon",
-    fullName: "Verizon Security",
-    category: "services",
-    shortcodes: ["87902"],
-    sms: "Verizon: Your account security pin code is 123456."
-  },
-  {
-    id: "tmobile",
-    name: "T-Mobile",
-    fullName: "T-Mobile Alerts",
-    category: "services",
-    shortcodes: ["86645"],
-    sms: "T-Mobile: Your temporary security pin is 987654."
-  },
-  {
-    id: "zoom",
-    name: "Zoom",
-    fullName: "Zoom Video Communications",
-    category: "tech",
-    shortcodes: ["96667"],
-    sms: "Your Zoom verification code is 123456. It is valid for 10 minutes."
-  },
-  {
-    id: "slack",
-    name: "Slack",
-    fullName: "Slack Technologies",
-    category: "tech",
-    shortcodes: ["75225"],
-    sms: "Slack confirmation code: 123-456. Enter this to log in."
-  },
-  {
-    id: "dropbox",
-    name: "Dropbox",
-    fullName: "Dropbox Security",
-    category: "tech",
-    shortcodes: ["37779"],
-    sms: "Dropbox: Use 123456 as your security code for two-step verification."
-  },
-  {
-    id: "cloudflare",
-    name: "Cloudflare",
-    fullName: "Cloudflare Security",
-    category: "tech",
-    shortcodes: ["25372"],
-    sms: "Your Cloudflare verification code is 123456."
-  },
-  {
-    id: "linkedin",
-    name: "LinkedIn",
-    fullName: "LinkedIn Security",
-    category: "tech",
-    shortcodes: ["54653"],
-    sms: "Your LinkedIn verification code is 123456. Don't share it."
-  },
-  {
-    id: "reddit",
-    name: "Reddit",
-    fullName: "Reddit Security",
-    category: "tech",
-    shortcodes: ["73338"],
-    sms: "Your Reddit verification code is 123456. Enter it in the app."
-  },
-  {
-    id: "pinterest",
-    name: "Pinterest",
-    fullName: "Pinterest Alerts",
-    category: "tech",
-    shortcodes: ["74687"],
-    sms: "Pinterest: Use 123456 as your verification code."
-  },
-  {
-    id: "snapchat",
-    name: "Snapchat",
-    fullName: "Snapchat Security",
-    category: "tech",
-    shortcodes: ["83395"],
-    sms: "Snapchat: Your verification code is 123456. Happy Snapping!"
-  },
-  {
-    id: "tiktok",
-    name: "TikTok",
-    fullName: "TikTok Security",
-    category: "tech",
-    shortcodes: ["84586"],
-    sms: "[TikTok] 123456 is your verification code. Expires in 5 minutes."
-  },
-  {
-    id: "signal",
-    name: "Signal",
-    fullName: "Signal Messenger",
-    category: "tech",
-    shortcodes: ["74462"],
-    sms: "Your Signal verification code is: 123-456. Do not share."
-  },
-  {
-    id: "telegram",
-    name: "Telegram",
-    fullName: "Telegram Login",
-    category: "tech",
-    shortcodes: ["39454"],
-    sms: "Telegram: login code 12345. Enter this code to verify your identity."
-  },
-  {
-    id: "shopify",
-    name: "Shopify",
-    fullName: "Shopify Security",
-    category: "tech",
-    shortcodes: ["74674"],
-    sms: "Shopify: Your login verification code is 123456."
-  },
-  {
-    id: "squarespace",
-    name: "Squarespace",
-    fullName: "Squarespace Alerts",
-    category: "tech",
-    shortcodes: ["77722"],
-    sms: "Squarespace: Your security verification code is 123456."
-  },
-  {
-    id: "notion",
-    name: "Notion",
-    fullName: "Notion Security",
-    category: "tech",
-    shortcodes: ["66846"],
-    sms: "Notion: Your temporary login code is 123456."
-  },
-  {
-    id: "figma",
-    name: "Figma",
-    fullName: "Figma Verify",
-    category: "tech",
-    shortcodes: ["34462"],
-    sms: "Use 123456 as two-factor authentication code for your Figma account."
-  },
-  {
-    id: "canva",
-    name: "Canva",
-    fullName: "Canva Alerts",
-    category: "tech",
-    shortcodes: ["22682"],
-    sms: "Canva: Your security verification code is 123456."
-  },
-  {
-    id: "patreon",
-    name: "Patreon",
-    fullName: "Patreon Security",
-    category: "tech",
-    shortcodes: ["72873"],
-    sms: "Patreon: Your verification code is 123456. Welcome back!"
-  },
-  {
-    id: "adobe",
-    name: "Adobe",
-    fullName: "Adobe Identity",
-    category: "tech",
-    shortcodes: ["23623"],
-    sms: "Your Adobe verification code is 123456. Do not share."
-  },
-  {
-    id: "wix",
-    name: "Wix",
-    fullName: "Wix Security",
-    category: "tech",
-    shortcodes: ["94999"],
-    sms: "Wix: 123456 is your security verification code."
-  },
-  {
-    id: "airtable",
-    name: "Airtable",
-    fullName: "Airtable Verify",
-    category: "tech",
-    shortcodes: ["24782"],
-    sms: "Your Airtable verification code is: 123456."
-  },
-  {
-    id: "citibank",
-    name: "Citi / Citibank",
-    fullName: "Citi Alerts",
-    category: "finance",
-    shortcodes: ["24842"],
-    sms: "Citi: Alert - Your card ending in 1234 was used for $99.00."
-  },
-  {
-    id: "fidelity",
-    name: "Fidelity",
-    fullName: "Fidelity Alerts",
-    category: "finance",
-    shortcodes: ["34335"],
-    sms: "Fidelity: Your security code is 123456. Valid for 15 mins."
-  },
-  {
-    id: "vanguard",
-    name: "Vanguard",
-    fullName: "Vanguard Alerts",
-    category: "finance",
-    shortcodes: ["82648"],
-    sms: "Vanguard Security Code: 123456. Confirm registration."
-  },
-  {
-    id: "schwab",
-    name: "Charles Schwab",
-    fullName: "Schwab Alerts",
-    category: "finance",
-    shortcodes: ["72492"],
-    sms: "Schwab: Your security verification code is 123456."
-  },
-  {
-    id: "robinhood",
-    name: "Robinhood",
-    fullName: "Robinhood Security",
-    category: "finance",
-    shortcodes: ["76246"],
-    sms: "Robinhood login attempt: Code is 123456. Enter to verify."
-  },
   {
     id: "acorns",
     name: "Acorns",
@@ -578,126 +9,6 @@ const DirectoryData = [
     category: "finance",
     shortcodes: ["22676"],
     sms: "Acorns: Your temporary access code is 123456."
-  },
-  {
-    id: "sofi",
-    name: "SoFi",
-    fullName: "SoFi Alerts",
-    category: "finance",
-    shortcodes: ["76342"],
-    sms: "SoFi: Your security verification code is 123456."
-  },
-  {
-    id: "chime",
-    name: "Chime",
-    fullName: "Chime Bank Alerts",
-    category: "finance",
-    shortcodes: ["24463"],
-    sms: "Chime: Your card ending in 1234 was used for $25.50."
-  },
-  {
-    id: "ally",
-    name: "Ally Bank",
-    fullName: "Ally Alerts",
-    category: "finance",
-    shortcodes: ["25592"],
-    sms: "Ally: 123456 is your security verification code."
-  },
-  {
-    id: "discover",
-    name: "Discover Bank",
-    fullName: "Discover Alerts",
-    category: "finance",
-    shortcodes: ["34726"],
-    sms: "Discover Alert: Transaction of $45.00 approved at Exxon."
-  },
-  {
-    id: "mastercard",
-    name: "Mastercard",
-    fullName: "Mastercard Alerts",
-    category: "finance",
-    shortcodes: ["62783"],
-    sms: "Mastercard ID Check: Your secure code is 123456."
-  },
-  {
-    id: "visa",
-    name: "Visa",
-    fullName: "Visa Alerts",
-    category: "finance",
-    shortcodes: ["84722"],
-    sms: "Verified by Visa: Your verification code is 123456."
-  },
-  {
-    id: "turbotax",
-    name: "TurboTax / Intuit",
-    fullName: "Intuit Security",
-    category: "finance",
-    shortcodes: ["88728"],
-    sms: "Intuit: Your TurboTax verification code is 123456."
-  },
-  {
-    id: "creditkarma",
-    name: "Credit Karma",
-    fullName: "Credit Karma Security",
-    category: "finance",
-    shortcodes: ["25762"],
-    sms: "Credit Karma: Your login verification code is 123456."
-  },
-  {
-    id: "klarna",
-    name: "Klarna",
-    fullName: "Klarna Payments",
-    category: "finance",
-    shortcodes: ["55276"],
-    sms: "Klarna: Your login code is 123-456. Do not share."
-  },
-  {
-    id: "affirm",
-    name: "Affirm",
-    fullName: "Affirm Security",
-    category: "finance",
-    shortcodes: ["23347"],
-    sms: "Affirm: Your verification code is 123456. Shop now!"
-  },
-  {
-    id: "lowes",
-    name: "Lowe's",
-    fullName: "Lowe's Orders",
-    category: "retail",
-    shortcodes: ["56937"],
-    sms: "LOWE'S: Your store pickup order #12345 is ready for pick up."
-  },
-  {
-    id: "ikea",
-    name: "IKEA",
-    fullName: "IKEA Delivery",
-    category: "retail",
-    shortcodes: ["45322"],
-    sms: "IKEA: Your delivery driver is on the way. Expected arrival: 2:00 PM."
-  },
-  {
-    id: "wayfair",
-    name: "Wayfair",
-    fullName: "Wayfair Orders",
-    category: "retail",
-    shortcodes: ["92937"],
-    sms: "Wayfair: Your item has shipped! Track your package here."
-  },
-  {
-    id: "sephora",
-    name: "Sephora",
-    fullName: "Sephora Alerts",
-    category: "retail",
-    shortcodes: ["73746"],
-    sms: "Sephora Beauty Insider: Earn 2x points today only! Shop now."
-  },
-  {
-    id: "ulta",
-    name: "Ulta Beauty",
-    fullName: "Ulta Alerts",
-    category: "retail",
-    shortcodes: ["85822"],
-    sms: "Ulta: Your order is on its way. Use code 1234 for tracking."
   },
   {
     id: "adidas",
@@ -708,180 +19,20 @@ const DirectoryData = [
     sms: "Adidas: Order #12345 is confirmed. We will notify you when it ships."
   },
   {
-    id: "lululemon",
-    name: "Lululemon",
-    fullName: "Lululemon Alerts",
-    category: "retail",
-    shortcodes: ["58586"],
-    sms: "Lululemon: Your order is ready for pickup at our local store."
+    id: "adobe",
+    name: "Adobe",
+    fullName: "Adobe Identity",
+    category: "tech",
+    shortcodes: ["23623"],
+    sms: "Your Adobe verification code is 123456. Do not share."
   },
   {
-    id: "gap",
-    name: "Gap",
-    fullName: "Gap Orders",
-    category: "retail",
-    shortcodes: ["42727"],
-    sms: "Gap: Your order has shipped. Track it online. Thank you!"
-  },
-  {
-    id: "hm",
-    name: "H&M",
-    fullName: "H&M Members",
-    category: "retail",
-    shortcodes: ["46468"],
-    sms: "H&M: Member deal! Get 15% off your next purchase inside the app."
-  },
-  {
-    id: "zara",
-    name: "Zara",
-    fullName: "Zara Customer Service",
-    category: "retail",
-    shortcodes: ["92722"],
-    sms: "Zara: Order #98765 is out for delivery today. Enjoy your styles!"
-  },
-  {
-    id: "macys",
-    name: "Macy's",
-    fullName: "Macy's Alerts",
-    category: "retail",
-    shortcodes: ["62297"],
-    sms: "Macy's: Your package has been delivered to your front door."
-  },
-  {
-    id: "nordstrom",
-    name: "Nordstrom",
-    fullName: "Nordstrom Alerts",
-    category: "retail",
-    shortcodes: ["67376"],
-    sms: "Nordstrom: Your pickup order is ready. Park in curbside spot 2."
-  },
-  {
-    id: "riteaid",
-    name: "Rite Aid",
-    fullName: "Rite Aid Pharmacy",
-    category: "retail",
-    shortcodes: ["74832"],
-    sms: "Rite Aid: Rx #123456 is ready for pickup at Main St."
-  },
-  {
-    id: "kroger",
-    name: "Kroger",
-    fullName: "Kroger Alerts",
-    category: "retail",
-    shortcodes: ["57643"],
-    sms: "Kroger: Delivery alert. Your groceries have been dropped off."
-  },
-  {
-    id: "instacart",
-    name: "Instacart",
-    fullName: "Instacart Delivery",
-    category: "retail",
-    shortcodes: ["46782"],
-    sms: "Instacart: Your shopper is checking out. ETA: 20 minutes."
-  },
-  {
-    id: "shipt",
-    name: "Shipt",
-    fullName: "Shipt Shoppers",
-    category: "retail",
-    shortcodes: ["74478"],
-    sms: "Shipt: Shopper is arriving soon. Please make sure porch light is on."
-  },
-  {
-    id: "att",
-    name: "AT&T",
-    fullName: "AT&T Alerts",
-    category: "services",
-    shortcodes: ["74636"],
-    sms: "AT&T Free Msg: Your monthly bill of $85.00 is ready to view."
-  },
-  {
-    id: "mintmobile",
-    name: "Mint Mobile",
-    fullName: "Mint Mobile Alerts",
-    category: "services",
-    shortcodes: ["64686"],
-    sms: "Mint Mobile: Your high-speed data is 80% used. Text UPGRADE."
-  },
-  {
-    id: "xfinity",
-    name: "Xfinity",
-    fullName: "Xfinity Alerts",
-    category: "services",
-    shortcodes: ["26627"],
-    sms: "Xfinity Alert: Technician arriving today between 1:00 - 3:00 PM."
-  },
-  {
-    id: "spectrum",
-    name: "Spectrum",
-    fullName: "Spectrum Customer Alert",
-    category: "services",
-    shortcodes: ["77328"],
-    sms: "Spectrum: Planned maintenance in your area tonight at 12:00 AM."
-  },
-  {
-    id: "disneyplus",
-    name: "Disney+",
-    fullName: "Disney+ Security",
-    category: "services",
-    shortcodes: ["34763"],
-    sms: "Disney+: Use 123456 as your one-time verification passcode."
-  },
-  {
-    id: "hulu",
-    name: "Hulu",
-    fullName: "Hulu Alerts",
-    category: "services",
-    shortcodes: ["48582"],
-    sms: "Hulu Account Alert: Security code 123456 requested for login."
-  },
-  {
-    id: "max",
-    name: "Max",
-    fullName: "Max (HBO) Security",
-    category: "services",
-    shortcodes: ["62982"],
-    sms: "Your Max verification code is 123456."
-  },
-  {
-    id: "peacock",
-    name: "Peacock",
-    fullName: "Peacock TV Alerts",
-    category: "services",
-    shortcodes: ["73226"],
-    sms: "Peacock TV: 123456 is your security verification code."
-  },
-  {
-    id: "paramountplus",
-    name: "Paramount+",
-    fullName: "Paramount+ Security",
-    category: "services",
-    shortcodes: ["72768"],
-    sms: "Paramount+ Security Code: 123456. Expires in 15 minutes."
-  },
-  {
-    id: "spotify",
-    name: "Spotify",
-    fullName: "Spotify Security",
-    category: "services",
-    shortcodes: ["77684"],
-    sms: "Spotify: Use 123456 to verify your account login request."
-  },
-  {
-    id: "bookingcom",
-    name: "Booking.com",
-    fullName: "Booking.com Alerts",
-    category: "services",
-    shortcodes: ["26654"],
-    sms: "Booking.com: Your reservation at Hotel Grand is confirmed! PIN: 1234."
-  },
-  {
-    id: "expedia",
-    name: "Expedia",
-    fullName: "Expedia Alerts",
-    category: "services",
-    shortcodes: ["39733"],
-    sms: "Expedia: Flight UA100 departure gate changed to C24."
+    id: "affirm",
+    name: "Affirm",
+    fullName: "Affirm Security",
+    category: "finance",
+    shortcodes: ["23347"],
+    sms: "Affirm: Your verification code is 123456. Shop now!"
   },
   {
     id: "airbnb",
@@ -892,52 +43,28 @@ const DirectoryData = [
     sms: "Airbnb: Host says: 'Welcome! Code for front door lock is 1234.'"
   },
   {
-    id: "vrbo",
-    name: "Vrbo",
-    fullName: "Vrbo Alerts",
-    category: "services",
-    shortcodes: ["87262"],
-    sms: "Vrbo: Your check-in instructions for Cozy Cabin are ready."
+    id: "airtable",
+    name: "Airtable",
+    fullName: "Airtable Verify",
+    category: "tech",
+    shortcodes: ["24782"],
+    sms: "Your Airtable verification code is: 123456."
   },
   {
-    id: "marriott",
-    name: "Marriott",
-    fullName: "Marriott Bonvoy",
-    category: "services",
-    shortcodes: ["62774"],
-    sms: "Marriott: Mobile check-in is ready for room #101. Use digital key."
+    id: "ally",
+    name: "Ally Bank",
+    fullName: "Ally Alerts",
+    category: "finance",
+    shortcodes: ["25592"],
+    sms: "Ally: 123456 is your security verification code."
   },
   {
-    id: "hilton",
-    name: "Hilton",
-    fullName: "Hilton Honors",
-    category: "services",
-    shortcodes: ["44586"],
-    sms: "Hilton: Welcome to Hilton Downtown. Your room is ready."
-  },
-  {
-    id: "hyatt",
-    name: "Hyatt",
-    fullName: "World of Hyatt",
-    category: "services",
-    shortcodes: ["49288"],
-    sms: "Hyatt: Thank you for your stay. Your digital receipt is ready."
-  },
-  {
-    id: "delta",
-    name: "Delta Air Lines",
-    fullName: "Delta Flight Alerts",
-    category: "services",
-    shortcodes: ["33582"],
-    sms: "Delta Flight 123 is on time. Gate departure C12 at 4:30 PM."
-  },
-  {
-    id: "united",
-    name: "United Airlines",
-    fullName: "United Flight Updates",
-    category: "services",
-    shortcodes: ["86483"],
-    sms: "United: Boarding group 3 for Flight UA450 is now boarding."
+    id: "amazon",
+    name: "Amazon",
+    fullName: "Amazon Delivery",
+    category: "retail",
+    shortcodes: ["38356", "20961"],
+    sms: "Your Amazon package is out for delivery."
   },
   {
     id: "americanairlines",
@@ -948,36 +75,36 @@ const DirectoryData = [
     sms: "AA: Flight 500 baggage claim will be Carousel 4."
   },
   {
-    id: "southwest",
-    name: "Southwest Airlines",
-    fullName: "Southwest Flight Updates",
-    category: "services",
-    shortcodes: ["79227"],
-    sms: "Southwest: Flight 998 check-in window is open. Boarding slot: B22."
+    id: "americanexpress",
+    name: "American Express",
+    fullName: "Amex Alerts",
+    category: "finance",
+    shortcodes: ["26397"],
+    sms: "Amex: Security code 12345 for online purchase transaction."
   },
   {
-    id: "ticketmaster",
-    name: "Ticketmaster",
-    fullName: "Ticketmaster Alerts",
-    category: "services",
-    shortcodes: ["86278"],
-    sms: "Ticketmaster: Your tickets for tomorrow's concert are ready."
+    id: "apple",
+    name: "Apple",
+    fullName: "Apple ID Verification",
+    category: "tech",
+    shortcodes: ["81961"],
+    sms: "Your Apple ID verification code is: 987654. Do not share."
   },
   {
-    id: "eventbrite",
-    name: "Eventbrite",
-    fullName: "Eventbrite Tickets",
+    id: "att",
+    name: "AT&T",
+    fullName: "AT&T Alerts",
     category: "services",
-    shortcodes: ["38368"],
-    sms: "Eventbrite: Ticket for Tech Summit. Scan code at entrance."
+    shortcodes: ["74636"],
+    sms: "AT&T Free Msg: Your monthly bill of $85.00 is ready to view."
   },
   {
-    id: "hertz",
-    name: "Hertz",
-    fullName: "Hertz Gold Plus",
-    category: "services",
-    shortcodes: ["43789"],
-    sms: "Hertz: Gold alert! Your car is in Zone 4, Stall 22."
+    id: "authy",
+    name: "Authy / Shop Pay",
+    fullName: "Shop Pay & Authy",
+    category: "tech",
+    shortcodes: ["22395"],
+    sms: "Shop Pay: Your login code is 123456."
   },
   {
     id: "avis",
@@ -988,20 +115,44 @@ const DirectoryData = [
     sms: "Avis: Your car keys are inside the dashboard. Stall B5."
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
-    fullName: "Enterprise Rent-A-Car",
-    category: "services",
-    shortcodes: ["36877"],
-    sms: "Enterprise: Rental contract completed. Thank you for renting."
+    id: "bankofamerica",
+    name: "Bank of America",
+    fullName: "BofA Alerts",
+    category: "finance",
+    shortcodes: ["73981"],
+    sms: "BofA: Alert - Large transaction of $250.00 at Apple Store."
   },
   {
-    id: "mcdonalds",
-    name: "McDonald's",
-    fullName: "McDonald's Rewards",
-    category: "food",
-    shortcodes: ["62366"],
-    sms: "McDonald's: Use code 1234 to claim your free fries inside the app."
+    id: "benchmade",
+    name: "Benchmade",
+    fullName: "Benchmade Knife Company",
+    category: "retail",
+    shortcodes: ["95493"],
+    sms: "Benchmade: Your custom knife order #12345 has shipped and is on its way."
+  },
+  {
+    id: "bestbuy",
+    name: "Best Buy",
+    fullName: "Best Buy Orders",
+    category: "retail",
+    shortcodes: ["228289"],
+    sms: "Best Buy: Your order is ready for pickup."
+  },
+  {
+    id: "bookingcom",
+    name: "Booking.com",
+    fullName: "Booking.com Alerts",
+    category: "services",
+    shortcodes: ["26654"],
+    sms: "Booking.com: Your reservation at Hotel Grand is confirmed! PIN: 1234."
+  },
+  {
+    id: "budget",
+    name: "Budget",
+    fullName: "Budget Rent A Car",
+    category: "services",
+    shortcodes: ["90607"],
+    sms: "BUDGET: Summer savings are here. Get up to 35% off."
   },
   {
     id: "burgerking",
@@ -1012,44 +163,36 @@ const DirectoryData = [
     sms: "Burger King: Crown deals! Get BOGO Whopper with code 9876."
   },
   {
-    id: "wendys",
-    name: "Wendy's",
-    fullName: "Wendy's Rewards",
-    category: "food",
-    shortcodes: ["93639"],
-    sms: "Wendy's: Your mobile order #1234 is ready for pickup at drive-thru."
+    id: "canva",
+    name: "Canva",
+    fullName: "Canva Alerts",
+    category: "tech",
+    shortcodes: ["22682"],
+    sms: "Canva: Your security verification code is 123456."
   },
   {
-    id: "subway",
-    name: "Subway",
-    fullName: "Subway MVP Rewards",
-    category: "food",
-    shortcodes: ["78292"],
-    sms: "Subway: 15% off any footlong sub today! Order inside the app."
+    id: "capitalone",
+    name: "Capital One",
+    fullName: "Capital One Alerts",
+    category: "finance",
+    shortcodes: ["22789"],
+    sms: "Capital One: Large purchase alert at Best Buy."
   },
   {
-    id: "tacobell",
-    name: "Taco Bell",
-    fullName: "Taco Bell Rewards",
-    category: "food",
-    shortcodes: ["82262"],
-    sms: "Taco Bell: Craving solved! 1234 is your mobile order pickup code."
+    id: "cashapp",
+    name: "Cash App",
+    fullName: "Cash App Verification",
+    category: "finance",
+    shortcodes: ["28515"],
+    sms: "Cash App: 123-456 is your sign-in code."
   },
   {
-    id: "chipotle",
-    name: "Chipotle",
-    fullName: "Chipotle Rewards",
-    category: "food",
-    shortcodes: ["24476"],
-    sms: "Chipotle: Your burrito bowl is ready on the pickup shelf!"
-  },
-  {
-    id: "dunkin",
-    name: "Dunkin'",
-    fullName: "Dunkin' Rewards",
-    category: "food",
-    shortcodes: ["38654"],
-    sms: "Dunkin': Your cold brew is ready. Code: 1234."
+    id: "chase",
+    name: "Chase Bank",
+    fullName: "Chase Alerts",
+    category: "finance",
+    shortcodes: ["24273"],
+    sms: "Chase Alert: Large transaction of $50.00 at Target."
   },
   {
     id: "chickfilay",
@@ -1060,6 +203,230 @@ const DirectoryData = [
     sms: "Chick-fil-A: Order is prepared! Curbside spot #4."
   },
   {
+    id: "chime",
+    name: "Chime",
+    fullName: "Chime Bank Alerts",
+    category: "finance",
+    shortcodes: ["24463"],
+    sms: "Chime: Your card ending in 1234 was used for $25.50."
+  },
+  {
+    id: "chipotle",
+    name: "Chipotle",
+    fullName: "Chipotle Rewards",
+    category: "food",
+    shortcodes: ["24476"],
+    sms: "Chipotle: Your burrito bowl is ready on the pickup shelf!"
+  },
+  {
+    id: "circlek",
+    name: "Circle K",
+    fullName: "Circle K Easy Rewards",
+    category: "retail",
+    shortcodes: ["25050"],
+    sms: "Circle K: Get a free polar pop today! Scan your Easy Rewards bar code at checkout."
+  },
+  {
+    id: "citibank",
+    name: "Citi / Citibank",
+    fullName: "Citi Alerts",
+    category: "finance",
+    shortcodes: ["24842"],
+    sms: "Citi: Alert - Your card ending in 1234 was used for $99.00."
+  },
+  {
+    id: "cloudflare",
+    name: "Cloudflare",
+    fullName: "Cloudflare Security",
+    category: "tech",
+    shortcodes: ["25372"],
+    sms: "Your Cloudflare verification code is 123456."
+  },
+  {
+    id: "coinbase",
+    name: "Coinbase",
+    fullName: "Coinbase Security",
+    category: "finance",
+    shortcodes: ["26462"],
+    sms: "Coinbase: Your 2-step verification code is 123456."
+  },
+  {
+    id: "costco",
+    name: "Costco",
+    fullName: "Costco Alerts",
+    category: "retail",
+    shortcodes: ["267826"],
+    sms: "Costco: Thank you for shopping! Receipt details in link."
+  },
+  {
+    id: "creditkarma",
+    name: "Credit Karma",
+    fullName: "Credit Karma Security",
+    category: "finance",
+    shortcodes: ["25762"],
+    sms: "Credit Karma: Your login verification code is 123456."
+  },
+  {
+    id: "cvs",
+    name: "CVS Pharmacy",
+    fullName: "CVS Alerts",
+    category: "services",
+    shortcodes: ["287747"],
+    sms: "CVS: Your order is ready for pickup."
+  },
+  {
+    id: "delta",
+    name: "Delta Air Lines",
+    fullName: "Delta Flight Alerts",
+    category: "services",
+    shortcodes: ["33582"],
+    sms: "Delta Flight 123 is on time. Gate departure C12 at 4:30 PM."
+  },
+  {
+    id: "discord",
+    name: "Discord",
+    fullName: "Discord Security",
+    category: "tech",
+    shortcodes: ["24365"],
+    sms: "Your Discord security code is: 123456. It expires in 5 minutes."
+  },
+  {
+    id: "discover",
+    name: "Discover Bank",
+    fullName: "Discover Alerts",
+    category: "finance",
+    shortcodes: ["34726"],
+    sms: "Discover Alert: Transaction of $45.00 approved at Exxon."
+  },
+  {
+    id: "disneyplus",
+    name: "Disney+",
+    fullName: "Disney+ Security",
+    category: "services",
+    shortcodes: ["34763"],
+    sms: "Disney+: Use 123456 as your one-time verification passcode."
+  },
+  {
+    id: "dominos",
+    name: "Domino's",
+    fullName: "Domino's Tracker",
+    category: "food",
+    shortcodes: ["366466"],
+    sms: "Domino's: Your order is in the oven."
+  },
+  {
+    id: "doordash",
+    name: "DoorDash",
+    fullName: "DoorDash Delivery",
+    category: "food",
+    shortcodes: ["366747"],
+    sms: "DoorDash: Your dasher is arriving soon."
+  },
+  {
+    id: "dropbox",
+    name: "Dropbox",
+    fullName: "Dropbox Security",
+    category: "tech",
+    shortcodes: ["37779"],
+    sms: "Dropbox: Use 123456 as your security code for two-step verification."
+  },
+  {
+    id: "dunkin",
+    name: "Dunkin'",
+    fullName: "Dunkin' Rewards",
+    category: "food",
+    shortcodes: ["38654"],
+    sms: "Dunkin': Your cold brew is ready. Code: 1234."
+  },
+  {
+    id: "ebay",
+    name: "eBay",
+    fullName: "eBay Security",
+    category: "retail",
+    shortcodes: ["70726"],
+    sms: "eBay: Your security code is 987654. Do not share."
+  },
+  {
+    id: "enterprise",
+    name: "Enterprise",
+    fullName: "Enterprise Rent-A-Car",
+    category: "services",
+    shortcodes: ["36877"],
+    sms: "Enterprise: Rental contract completed. Thank you for renting."
+  },
+  {
+    id: "etrade",
+    name: "E*TRADE",
+    fullName: "E*TRADE Alerts",
+    category: "finance",
+    shortcodes: ["95851"],
+    sms: "E*TRADE: Alert! Your limit order to buy 10 shares of Apple was executed."
+  },
+  {
+    id: "eventbrite",
+    name: "Eventbrite",
+    fullName: "Eventbrite Tickets",
+    category: "services",
+    shortcodes: ["38368"],
+    sms: "Eventbrite: Ticket for Tech Summit. Scan code at entrance."
+  },
+  {
+    id: "expedia",
+    name: "Expedia",
+    fullName: "Expedia Alerts",
+    category: "services",
+    shortcodes: ["39733"],
+    sms: "Expedia: Flight UA100 departure gate changed to C24."
+  },
+  {
+    id: "fedex",
+    name: "FedEx",
+    fullName: "FedEx Tracking",
+    category: "services",
+    shortcodes: ["46339"],
+    sms: "FedEx: Package tracking update: Out for delivery."
+  },
+  {
+    id: "fidelity",
+    name: "Fidelity",
+    fullName: "Fidelity Alerts",
+    category: "finance",
+    shortcodes: ["34335"],
+    sms: "Fidelity: Your security code is 123456. Valid for 15 mins."
+  },
+  {
+    id: "figma",
+    name: "Figma",
+    fullName: "Figma Verify",
+    category: "tech",
+    shortcodes: ["34462"],
+    sms: "Use 123456 as two-factor authentication code for your Figma account."
+  },
+  {
+    id: "gap",
+    name: "Gap",
+    fullName: "Gap Orders",
+    category: "retail",
+    shortcodes: ["42727"],
+    sms: "Gap: Your order has shipped. Track it online. Thank you!"
+  },
+  {
+    id: "github",
+    name: "GitHub",
+    fullName: "GitHub Security",
+    category: "tech",
+    shortcodes: ["44842"],
+    sms: "[GitHub] Use 123456 as two-factor authentication code for your GitHub account."
+  },
+  {
+    id: "google",
+    name: "Google",
+    fullName: "Google Verification",
+    category: "tech",
+    shortcodes: ["22000", "24444"],
+    sms: "G-765359 is your Google verification code. Don't share your code with anyone."
+  },
+  {
     id: "grubhub",
     name: "Grubhub",
     fullName: "Grubhub Delivery",
@@ -1068,28 +435,228 @@ const DirectoryData = [
     sms: "Grubhub: Your order has been delivered. Enjoy!"
   },
   {
-    id: "postmates",
-    name: "Postmates",
-    fullName: "Postmates Delivery",
-    category: "food",
-    shortcodes: ["76786"],
-    sms: "Postmates: Courier is 2 minutes away from your delivery address."
+    id: "hertz",
+    name: "Hertz",
+    fullName: "Hertz Gold Plus",
+    category: "services",
+    shortcodes: ["43789"],
+    sms: "Hertz: Gold alert! Your car is in Zone 4, Stall 22."
   },
   {
-    id: "pizzahut",
-    name: "Pizza Hut",
-    fullName: "Pizza Hut Orders",
-    category: "food",
-    shortcodes: ["74992"],
-    sms: "Pizza Hut: Order is in the oven! Estimated delivery: 30 minutes."
+    id: "hilton",
+    name: "Hilton",
+    fullName: "Hilton Honors",
+    category: "services",
+    shortcodes: ["44586"],
+    sms: "Hilton: Welcome to Hilton Downtown. Your room is ready."
   },
   {
-    id: "papajohns",
-    name: "Papa John's",
-    fullName: "Papa Rewards",
+    id: "hm",
+    name: "H&M",
+    fullName: "H&M Members",
+    category: "retail",
+    shortcodes: ["46468"],
+    sms: "H&M: Member deal! Get 15% off your next purchase inside the app."
+  },
+  {
+    id: "homedepot",
+    name: "Home Depot",
+    fullName: "Home Depot Orders",
+    category: "retail",
+    shortcodes: ["433768", "38698"],
+    sms: "HOME DEPOT: Your order #12345 is ready for pickup."
+  },
+  {
+    id: "hulu",
+    name: "Hulu",
+    fullName: "Hulu Alerts",
+    category: "services",
+    shortcodes: ["48582"],
+    sms: "Hulu Account Alert: Security code 123456 requested for login."
+  },
+  {
+    id: "hyatt",
+    name: "Hyatt",
+    fullName: "World of Hyatt",
+    category: "services",
+    shortcodes: ["49288"],
+    sms: "Hyatt: Thank you for your stay. Your digital receipt is ready."
+  },
+  {
+    id: "ikea",
+    name: "IKEA",
+    fullName: "IKEA Delivery",
+    category: "retail",
+    shortcodes: ["45322"],
+    sms: "IKEA: Your delivery driver is on the way. Expected arrival: 2:00 PM."
+  },
+  {
+    id: "instacart",
+    name: "Instacart",
+    fullName: "Instacart Delivery",
+    category: "retail",
+    shortcodes: ["46782"],
+    sms: "Instacart: Your shopper is checking out. ETA: 20 minutes."
+  },
+  {
+    id: "klarna",
+    name: "Klarna",
+    fullName: "Klarna Payments",
+    category: "finance",
+    shortcodes: ["55276"],
+    sms: "Klarna: Your login code is 123-456. Do not share."
+  },
+  {
+    id: "kohls",
+    name: "Kohl's",
+    fullName: "Kohl's Mobile",
+    category: "retail",
+    shortcodes: ["56457"],
+    sms: "KOHL'S: Take an extra 15% off with code SUNNY15."
+  },
+  {
+    id: "kroger",
+    name: "Kroger",
+    fullName: "Kroger Alerts",
+    category: "retail",
+    shortcodes: ["57643"],
+    sms: "Kroger: Delivery alert. Your groceries have been dropped off."
+  },
+  {
+    id: "linkedin",
+    name: "LinkedIn",
+    fullName: "LinkedIn Security",
+    category: "tech",
+    shortcodes: ["54653"],
+    sms: "Your LinkedIn verification code is 123456. Don't share it."
+  },
+  {
+    id: "lowes",
+    name: "Lowe's",
+    fullName: "Lowe's Orders",
+    category: "retail",
+    shortcodes: ["56937"],
+    sms: "LOWE'S: Your store pickup order #12345 is ready for pick up."
+  },
+  {
+    id: "lululemon",
+    name: "Lululemon",
+    fullName: "Lululemon Alerts",
+    category: "retail",
+    shortcodes: ["58586"],
+    sms: "Lululemon: Your order is ready for pickup at our local store."
+  },
+  {
+    id: "lyft",
+    name: "Lyft",
+    fullName: "Lyft updates",
     category: "food",
-    shortcodes: ["72725"],
-    sms: "Papa John's: Delivery driver is on their way with your hot pizza!"
+    shortcodes: ["59381"],
+    sms: "Lyft: Ride code 1234. Your driver is 2 mins away."
+  },
+  {
+    id: "macys",
+    name: "Macy's",
+    fullName: "Macy's Alerts",
+    category: "retail",
+    shortcodes: ["62297"],
+    sms: "Macy's: Your package has been delivered to your front door."
+  },
+  {
+    id: "marriott",
+    name: "Marriott",
+    fullName: "Marriott Bonvoy",
+    category: "services",
+    shortcodes: ["62774"],
+    sms: "Marriott: Mobile check-in is ready for room #101. Use digital key."
+  },
+  {
+    id: "mastercard",
+    name: "Mastercard",
+    fullName: "Mastercard Alerts",
+    category: "finance",
+    shortcodes: ["62783"],
+    sms: "Mastercard ID Check: Your secure code is 123456."
+  },
+  {
+    id: "max",
+    name: "Max",
+    fullName: "Max (HBO) Security",
+    category: "services",
+    shortcodes: ["62982"],
+    sms: "Your Max verification code is 123456."
+  },
+  {
+    id: "mcdonalds",
+    name: "McDonald's",
+    fullName: "McDonald's Rewards",
+    category: "food",
+    shortcodes: ["62366"],
+    sms: "McDonald's: Use code 1234 to claim your free fries inside the app."
+  },
+  {
+    id: "meta",
+    name: "Meta / Facebook",
+    fullName: "Meta Security",
+    category: "tech",
+    shortcodes: ["32665"],
+    sms: "123456 is your Facebook security code."
+  },
+  {
+    id: "microsoft",
+    name: "Microsoft",
+    fullName: "Microsoft Security",
+    category: "tech",
+    shortcodes: ["87892", "69525"],
+    sms: "Use 123456 as Microsoft account security code."
+  },
+  {
+    id: "mintmobile",
+    name: "Mint Mobile",
+    fullName: "Mint Mobile Alerts",
+    category: "services",
+    shortcodes: ["64686"],
+    sms: "Mint Mobile: Your high-speed data is 80% used. Text UPGRADE."
+  },
+  {
+    id: "netflix",
+    name: "Netflix",
+    fullName: "Netflix Updates",
+    category: "services",
+    shortcodes: ["63835"],
+    sms: "Netflix: Your verification code is 123456. Don't share."
+  },
+  {
+    id: "nike",
+    name: "Nike",
+    fullName: "Nike Orders",
+    category: "retail",
+    shortcodes: ["64537"],
+    sms: "Nike: Your order #98765 has been shipped. Track your package."
+  },
+  {
+    id: "nordstrom",
+    name: "Nordstrom",
+    fullName: "Nordstrom Alerts",
+    category: "retail",
+    shortcodes: ["67376"],
+    sms: "Nordstrom: Your pickup order is ready. Park in curbside spot 2."
+  },
+  {
+    id: "notion",
+    name: "Notion",
+    fullName: "Notion Security",
+    category: "tech",
+    shortcodes: ["66846"],
+    sms: "Notion: Your temporary login code is 123456."
+  },
+  {
+    id: "okta",
+    name: "Okta",
+    fullName: "Okta Verify",
+    category: "tech",
+    shortcodes: ["65821"],
+    sms: "Okta Verify: 123456 is your verification code."
   },
   {
     id: "panerabread",
@@ -1100,12 +667,492 @@ const DirectoryData = [
     sms: "Panera: Your Rapid Pick-Up order is ready on the shelf."
   },
   {
+    id: "papajohns",
+    name: "Papa John's",
+    fullName: "Papa Rewards",
+    category: "food",
+    shortcodes: ["72725"],
+    sms: "Papa John's: Delivery driver is on their way with your hot pizza!"
+  },
+  {
+    id: "paramountplus",
+    name: "Paramount+",
+    fullName: "Paramount+ Security",
+    category: "services",
+    shortcodes: ["72768"],
+    sms: "Paramount+ Security Code: 123456. Expires in 15 minutes."
+  },
+  {
+    id: "patreon",
+    name: "Patreon",
+    fullName: "Patreon Security",
+    category: "tech",
+    shortcodes: ["72873"],
+    sms: "Patreon: Your verification code is 123456. Welcome back!"
+  },
+  {
+    id: "paypal",
+    name: "PayPal",
+    fullName: "PayPal Security",
+    category: "finance",
+    shortcodes: ["72975"],
+    sms: "PayPal: Your security code is 123456."
+  },
+  {
+    id: "peacock",
+    name: "Peacock",
+    fullName: "Peacock TV Alerts",
+    category: "services",
+    shortcodes: ["73226"],
+    sms: "Peacock TV: 123456 is your security verification code."
+  },
+  {
+    id: "petsmart",
+    name: "PetSmart",
+    fullName: "PetSmart Treats",
+    category: "retail",
+    shortcodes: ["704704"],
+    sms: "PetSmart: Your Treats points are ready to redeem! Show this bar code at checkout."
+  },
+  {
+    id: "pinterest",
+    name: "Pinterest",
+    fullName: "Pinterest Alerts",
+    category: "tech",
+    shortcodes: ["74687"],
+    sms: "Pinterest: Use 123456 as your verification code."
+  },
+  {
+    id: "pizzahut",
+    name: "Pizza Hut",
+    fullName: "Pizza Hut Orders",
+    category: "food",
+    shortcodes: ["74992"],
+    sms: "Pizza Hut: Order is in the oven! Estimated delivery: 30 minutes."
+  },
+  {
+    id: "postmates",
+    name: "Postmates",
+    fullName: "Postmates Delivery",
+    category: "food",
+    shortcodes: ["76786"],
+    sms: "Postmates: Courier is 2 minutes away from your delivery address."
+  },
+  {
+    id: "progressive",
+    name: "Progressive",
+    fullName: "Progressive Insurance",
+    category: "services",
+    shortcodes: ["99354"],
+    sms: "Progressive: Your auto policy renewal payment was processed successfully. Thank you!"
+  },
+  {
+    id: "reddit",
+    name: "Reddit",
+    fullName: "Reddit Security",
+    category: "tech",
+    shortcodes: ["73338"],
+    sms: "Your Reddit verification code is 123456. Enter it in the app."
+  },
+  {
+    id: "riteaid",
+    name: "Rite Aid",
+    fullName: "Rite Aid Pharmacy",
+    category: "retail",
+    shortcodes: ["74832"],
+    sms: "Rite Aid: Rx #123456 is ready for pickup at Main St."
+  },
+  {
+    id: "robinhood",
+    name: "Robinhood",
+    fullName: "Robinhood Security",
+    category: "finance",
+    shortcodes: ["76246"],
+    sms: "Robinhood login attempt: Code is 123456. Enter to verify."
+  },
+  {
+    id: "schwab",
+    name: "Charles Schwab",
+    fullName: "Schwab Alerts",
+    category: "finance",
+    shortcodes: ["72492"],
+    sms: "Schwab: Your security verification code is 123456."
+  },
+  {
+    id: "sephora",
+    name: "Sephora",
+    fullName: "Sephora Alerts",
+    category: "retail",
+    shortcodes: ["73746"],
+    sms: "Sephora Beauty Insider: Earn 2x points today only! Shop now."
+  },
+  {
+    id: "seveneleven",
+    name: "7-Eleven",
+    fullName: "7-Eleven 7REWARDS",
+    category: "retail",
+    shortcodes: ["711711"],
+    sms: "7-Eleven: Your 7REWARDS offer is ready! Scan in store for a free Slurpee."
+  },
+  {
+    id: "shipt",
+    name: "Shipt",
+    fullName: "Shipt Shoppers",
+    category: "retail",
+    shortcodes: ["74478"],
+    sms: "Shipt: Shopper is arriving soon. Please make sure porch light is on."
+  },
+  {
+    id: "shopify",
+    name: "Shopify",
+    fullName: "Shopify Security",
+    category: "tech",
+    shortcodes: ["74674"],
+    sms: "Shopify: Your login verification code is 123456."
+  },
+  {
+    id: "signal",
+    name: "Signal",
+    fullName: "Signal Messenger",
+    category: "tech",
+    shortcodes: ["74462"],
+    sms: "Your Signal verification code is: 123-456. Do not share."
+  },
+  {
+    id: "skims",
+    name: "SKIMS",
+    fullName: "SKIMS Alerts",
+    category: "retail",
+    shortcodes: ["688805"],
+    sms: "SKIMS: Shop the new Cotton Collection now before it sells out!"
+  },
+  {
+    id: "slack",
+    name: "Slack",
+    fullName: "Slack Technologies",
+    category: "tech",
+    shortcodes: ["75225"],
+    sms: "Slack confirmation code: 123-456. Enter this to log in."
+  },
+  {
+    id: "slateauto",
+    name: "Slate Auto",
+    fullName: "Slate Auto Updates",
+    category: "services",
+    shortcodes: ["68406"],
+    sms: "Slate Auto: One week until we announce the price."
+  },
+  {
+    id: "snapchat",
+    name: "Snapchat",
+    fullName: "Snapchat Security",
+    category: "tech",
+    shortcodes: ["83395"],
+    sms: "Snapchat: Your verification code is 123456. Happy Snapping!"
+  },
+  {
+    id: "sofi",
+    name: "SoFi",
+    fullName: "SoFi Alerts",
+    category: "finance",
+    shortcodes: ["76342"],
+    sms: "SoFi: Your security verification code is 123456."
+  },
+  {
+    id: "southwest",
+    name: "Southwest Airlines",
+    fullName: "Southwest Flight Updates",
+    category: "services",
+    shortcodes: ["79227"],
+    sms: "Southwest: Flight 998 check-in window is open. Boarding slot: B22."
+  },
+  {
+    id: "spectrum",
+    name: "Spectrum",
+    fullName: "Spectrum Customer Alert",
+    category: "services",
+    shortcodes: ["77328"],
+    sms: "Spectrum: Planned maintenance in your area tonight at 12:00 AM."
+  },
+  {
+    id: "spotify",
+    name: "Spotify",
+    fullName: "Spotify Security",
+    category: "services",
+    shortcodes: ["77684"],
+    sms: "Spotify: Use 123456 to verify your account login request."
+  },
+  {
+    id: "squarespace",
+    name: "Squarespace",
+    fullName: "Squarespace Alerts",
+    category: "tech",
+    shortcodes: ["77722"],
+    sms: "Squarespace: Your security verification code is 123456."
+  },
+  {
+    id: "starbucks",
+    name: "Starbucks",
+    fullName: "Starbucks Rewards",
+    category: "food",
+    shortcodes: ["78645"],
+    sms: "Starbucks: Happy Hour starts today at 2 PM!"
+  },
+  {
+    id: "steam",
+    name: "Steam",
+    fullName: "Steam Guard",
+    category: "tech",
+    shortcodes: ["78326"],
+    sms: "Steam Guard: Your security code is ABCDE."
+  },
+  {
+    id: "stripe",
+    name: "Stripe",
+    fullName: "Stripe Verify",
+    category: "finance",
+    shortcodes: ["78747"],
+    sms: "Stripe: Your login verification code is 123-456."
+  },
+  {
+    id: "subway",
+    name: "Subway",
+    fullName: "Subway MVP Rewards",
+    category: "food",
+    shortcodes: ["78292"],
+    sms: "Subway: 15% off any footlong sub today! Order inside the app."
+  },
+  {
     id: "sweetgreen",
     name: "Sweetgreen",
     fullName: "Sweetgreen Orders",
     category: "food",
     shortcodes: ["79334"],
     sms: "Sweetgreen: Order #123 is ready at the pickup station. Enjoy your greens!"
+  },
+  {
+    id: "tacobell",
+    name: "Taco Bell",
+    fullName: "Taco Bell Rewards",
+    category: "food",
+    shortcodes: ["82262"],
+    sms: "Taco Bell: Craving solved! 1234 is your mobile order pickup code."
+  },
+  {
+    id: "target",
+    name: "Target",
+    fullName: "Target Alerts",
+    category: "retail",
+    shortcodes: ["827438"],
+    sms: "Target: 20% off your next order! Use code SAVE20."
+  },
+  {
+    id: "telegram",
+    name: "Telegram",
+    fullName: "Telegram Login",
+    category: "tech",
+    shortcodes: ["39454"],
+    sms: "Telegram: login code 12345. Enter this code to verify your identity."
+  },
+  {
+    id: "ticketmaster",
+    name: "Ticketmaster",
+    fullName: "Ticketmaster Alerts",
+    category: "services",
+    shortcodes: ["86278"],
+    sms: "Ticketmaster: Your tickets for tomorrow's concert are ready."
+  },
+  {
+    id: "tiktok",
+    name: "TikTok",
+    fullName: "TikTok Security",
+    category: "tech",
+    shortcodes: ["84586"],
+    sms: "[TikTok] 123456 is your verification code. Expires in 5 minutes."
+  },
+  {
+    id: "tmobile",
+    name: "T-Mobile",
+    fullName: "T-Mobile Alerts",
+    category: "services",
+    shortcodes: ["86645"],
+    sms: "T-Mobile: Your temporary security pin is 987654."
+  },
+  {
+    id: "turbotax",
+    name: "TurboTax / Intuit",
+    fullName: "Intuit Security",
+    category: "finance",
+    shortcodes: ["88728"],
+    sms: "Intuit: Your TurboTax verification code is 123456."
+  },
+  {
+    id: "twitch",
+    name: "Twitch",
+    fullName: "Twitch Alerts",
+    category: "tech",
+    shortcodes: ["84119"],
+    sms: "Twitch: Your verification code is 987654."
+  },
+  {
+    id: "uber",
+    name: "Uber",
+    fullName: "Uber updates",
+    category: "food",
+    shortcodes: ["82371", "92929"],
+    sms: "Uber: Your verification code is 1234."
+  },
+  {
+    id: "ulta",
+    name: "Ulta Beauty",
+    fullName: "Ulta Alerts",
+    category: "retail",
+    shortcodes: ["85822"],
+    sms: "Ulta: Your order is on its way. Use code 1234 for tracking."
+  },
+  {
+    id: "united",
+    name: "United Airlines",
+    fullName: "United Flight Updates",
+    category: "services",
+    shortcodes: ["86483"],
+    sms: "United: Boarding group 3 for Flight UA450 is now boarding."
+  },
+  {
+    id: "ups",
+    name: "UPS",
+    fullName: "UPS Tracking",
+    category: "services",
+    shortcodes: ["69877"],
+    sms: "UPS: Package 1Z12345 will be delivered tomorrow."
+  },
+  {
+    id: "usps",
+    name: "USPS",
+    fullName: "USPS Text Tracking",
+    category: "services",
+    shortcodes: ["28777", "69975"],
+    sms: "USPS Text Tracking: Package delivered."
+  },
+  {
+    id: "vanguard",
+    name: "Vanguard",
+    fullName: "Vanguard Alerts",
+    category: "finance",
+    shortcodes: ["82648"],
+    sms: "Vanguard Security Code: 123456. Confirm registration."
+  },
+  {
+    id: "venmo",
+    name: "Venmo",
+    fullName: "Venmo Verification",
+    category: "finance",
+    shortcodes: ["86753"],
+    sms: "Venmo: 123456 is your code. Don't share it."
+  },
+  {
+    id: "verizon",
+    name: "Verizon",
+    fullName: "Verizon Security",
+    category: "services",
+    shortcodes: ["87902"],
+    sms: "Verizon: Your account security pin code is 123456."
+  },
+  {
+    id: "visa",
+    name: "Visa",
+    fullName: "Visa Alerts",
+    category: "finance",
+    shortcodes: ["84722"],
+    sms: "Verified by Visa: Your verification code is 123456."
+  },
+  {
+    id: "vitaminshoppe",
+    name: "The Vitamin Shoppe",
+    fullName: "The Vitamin Shoppe",
+    category: "services",
+    shortcodes: ["848747"],
+    sms: "The Vitamin Shoppe: For dads on the grind, 20% off energy."
+  },
+  {
+    id: "vrbo",
+    name: "Vrbo",
+    fullName: "Vrbo Alerts",
+    category: "services",
+    shortcodes: ["87262"],
+    sms: "Vrbo: Your check-in instructions for Cozy Cabin are ready."
+  },
+  {
+    id: "walgreens",
+    name: "Walgreens",
+    fullName: "Walgreens Pharmacy",
+    category: "services",
+    shortcodes: ["92547"],
+    sms: "Walgreens: Your prescription #12345 is ready."
+  },
+  {
+    id: "walmart",
+    name: "Walmart",
+    fullName: "Walmart Alerts",
+    category: "retail",
+    shortcodes: ["85166", "60989"],
+    sms: "Walmart Pharmacy: Your prescription is ready."
+  },
+  {
+    id: "wayfair",
+    name: "Wayfair",
+    fullName: "Wayfair Orders",
+    category: "retail",
+    shortcodes: ["92937"],
+    sms: "Wayfair: Your item has shipped! Track your package here."
+  },
+  {
+    id: "wellsfargo",
+    name: "Wells Fargo",
+    fullName: "Wells Fargo Security",
+    category: "finance",
+    shortcodes: ["93557"],
+    sms: "Wells Fargo: Your temporary access code is 123456. Expires in 10 mins."
+  },
+  {
+    id: "wendys",
+    name: "Wendy's",
+    fullName: "Wendy's Rewards",
+    category: "food",
+    shortcodes: ["93639"],
+    sms: "Wendy's: Your mobile order #1234 is ready for pickup at drive-thru."
+  },
+  {
+    id: "wix",
+    name: "Wix",
+    fullName: "Wix Security",
+    category: "tech",
+    shortcodes: ["94999"],
+    sms: "Wix: 123456 is your security verification code."
+  },
+  {
+    id: "xfinity",
+    name: "Xfinity",
+    fullName: "Xfinity Alerts",
+    category: "services",
+    shortcodes: ["26627"],
+    sms: "Xfinity Alert: Technician arriving today between 1:00 - 3:00 PM."
+  },
+  {
+    id: "zara",
+    name: "Zara",
+    fullName: "Zara Customer Service",
+    category: "retail",
+    shortcodes: ["92722"],
+    sms: "Zara: Order #98765 is out for delivery today. Enjoy your styles!"
+  },
+  {
+    id: "zoom",
+    name: "Zoom",
+    fullName: "Zoom Video Communications",
+    category: "tech",
+    shortcodes: ["96667"],
+    sms: "Your Zoom verification code is 123456. It is valid for 10 minutes."
   }
 
 ];
@@ -1208,7 +1255,7 @@ function setupEventListeners() {
 
   // Hero Download All
   btnDownloadAll.addEventListener('click', () => {
-    downloadCombinedVcard(DirectoryData, "sms-avatars-all.vcf");
+    downloadCombinedVcard(DirectoryData, "shortcode-icons-all.vcf");
   });
 
   // Instruction Dialog Modal Events
@@ -1354,29 +1401,38 @@ function setupEventListeners() {
   const btnModalCopyLink = document.getElementById('btn-modal-copy-link');
   const copyBtnText = document.getElementById('copy-btn-text');
 
+  const btnModalSystemShare = document.getElementById('btn-modal-system-share');
+
   if (btnHeaderShare) {
     btnHeaderShare.addEventListener('click', () => {
-      const shareData = {
-        title: 'SMS Short Codes',
-        text: 'Clean up your text messages inbox! Banish cryptic numbers and gray bubbles with custom brand logos.',
-        url: 'https://shortcodeicons.com'
-      };
-      if (navigator.share) {
-        if (typeof gtag === 'function') {
-          gtag('event', 'share', { 'method': 'native' });
-        }
-        navigator.share(shareData).catch(err => {
-          // Fallback to dialog if sharing fails or is cancelled
-          shareDialog.showModal();
-        });
-      } else {
-        if (typeof gtag === 'function') {
-          gtag('event', 'share', { 'method': 'dialog' });
-        }
-        shareDialog.showModal();
+      if (typeof gtag === 'function') {
+        gtag('event', 'share_dialog_open');
       }
+      shareDialog.showModal();
     });
   }
+
+  // Handle system share inside the modal
+  const shareData = {
+    title: 'SMS Short Codes',
+    text: 'Clean up your text messages inbox! Banish cryptic numbers and gray bubbles with custom brand logos.',
+    url: 'https://shortcodeicons.com'
+  };
+
+  if (navigator.share && btnModalSystemShare) {
+    btnModalSystemShare.style.display = 'flex';
+    btnModalSystemShare.addEventListener('click', () => {
+      if (typeof gtag === 'function') {
+        gtag('event', 'share', { 'method': 'native' });
+      }
+      navigator.share(shareData).catch(err => {
+        console.log("Device share cancelled or failed:", err);
+      });
+    });
+  } else if (btnModalSystemShare) {
+    btnModalSystemShare.style.display = 'none';
+  }
+
   btnCloseShare.addEventListener('click', () => shareDialog.close());
   shareDialog.addEventListener('click', (e) => {
     const rect = shareDialog.getBoundingClientRect();
@@ -1751,7 +1807,7 @@ function downloadSelectedVcard() {
   const selectedBrands = DirectoryData.filter(item => selectedBrandIds.has(item.id));
   if (selectedBrands.length === 0) return;
   
-  downloadCombinedVcard(selectedBrands, "shortcode-studio-selected.vcf");
+  downloadCombinedVcard(selectedBrands, "shortcode-icons-selected.vcf");
   clearSelection();
   multiSelectCheckbox.checked = false;
   isMultiSelectMode = false;
