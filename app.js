@@ -1178,6 +1178,11 @@ function setupEventListeners() {
       e.target.classList.add('active');
       selectedCategory = e.target.dataset.category;
       renderGrid();
+      if (typeof gtag === 'function') {
+        gtag('event', 'filter_category', {
+          'category': selectedCategory
+        });
+      }
     }
   });
 
@@ -1189,6 +1194,11 @@ function setupEventListeners() {
     } else {
       document.body.classList.remove('select-mode');
       clearSelection();
+    }
+    if (typeof gtag === 'function') {
+      gtag('event', 'toggle_multi_select', {
+        'enabled': isMultiSelectMode
+      });
     }
   });
 
@@ -1204,6 +1214,9 @@ function setupEventListeners() {
   // Instruction Dialog Modal Events
   btnShowGuide.addEventListener('click', () => {
     instructionsDialog.showModal();
+    if (typeof gtag === 'function') {
+      gtag('event', 'view_guide');
+    }
   });
 
   btnCloseDialog.addEventListener('click', () => {
@@ -1228,12 +1241,22 @@ function setupEventListeners() {
     toggleBoring.classList.add('active');
     toggleBranded.classList.remove('active');
     phoneMockup.classList.remove('branded-mode');
+    if (typeof gtag === 'function') {
+      gtag('event', 'toggle_mockup', {
+        'state': 'before'
+      });
+    }
   });
 
   toggleBranded.addEventListener('click', () => {
     toggleBranded.classList.add('active');
     toggleBoring.classList.remove('active');
     phoneMockup.classList.add('branded-mode');
+    if (typeof gtag === 'function') {
+      gtag('event', 'toggle_mockup', {
+        'state': 'after'
+      });
+    }
   });
 
   // Privacy Modal
@@ -1241,7 +1264,12 @@ function setupEventListeners() {
   const btnShowPrivacy = document.getElementById('btn-show-privacy');
   const btnClosePrivacy = document.getElementById('btn-close-privacy');
 
-  btnShowPrivacy.addEventListener('click', () => privacyDialog.showModal());
+  btnShowPrivacy.addEventListener('click', () => {
+    privacyDialog.showModal();
+    if (typeof gtag === 'function') {
+      gtag('event', 'view_privacy_policy');
+    }
+  });
   btnClosePrivacy.addEventListener('click', () => privacyDialog.close());
   privacyDialog.addEventListener('click', (e) => {
     const rect = privacyDialog.getBoundingClientRect();
@@ -1256,7 +1284,12 @@ function setupEventListeners() {
   const btnCloseSubmit = document.getElementById('btn-close-submit');
   const submitForm = document.getElementById('submit-shortcode-form');
 
-  btnSubmitCode.addEventListener('click', () => submitDialog.showModal());
+  btnSubmitCode.addEventListener('click', () => {
+    submitDialog.showModal();
+    if (typeof gtag === 'function') {
+      gtag('event', 'open_submit_form');
+    }
+  });
   btnCloseSubmit.addEventListener('click', () => submitDialog.close());
   submitDialog.addEventListener('click', (e) => {
     const rect = submitDialog.getBoundingClientRect();
@@ -1291,6 +1324,12 @@ function setupEventListeners() {
       const res = await response.json();
       if (response.status === 200) {
         showToast("Thank you! Your suggestion was sent successfully. We'll add the logo in our next release.", "success");
+        if (typeof gtag === 'function') {
+          gtag('event', 'submit_shortcode_success', {
+            'brand_name': object.brand || '',
+            'shortcode': object.code || ''
+          });
+        }
       } else {
         showToast("Oops! Submission failed: " + (res.message || "Please try again later."), "error");
       }
@@ -1317,16 +1356,23 @@ function setupEventListeners() {
 
   if (btnHeaderShare) {
     btnHeaderShare.addEventListener('click', () => {
+      const shareData = {
+        title: 'SMS Short Codes',
+        text: 'Clean up your text messages inbox! Banish cryptic numbers and gray bubbles with custom brand logos.',
+        url: 'https://shortcodeicons.com'
+      };
       if (navigator.share) {
-        navigator.share({
-          title: 'SMS Short Codes',
-          text: 'Clean up your text messages inbox! Banish cryptic numbers and gray bubbles with custom brand logos.',
-          url: 'https://shortcodeicons.com'
-        }).catch(err => {
+        if (typeof gtag === 'function') {
+          gtag('event', 'share', { 'method': 'native' });
+        }
+        navigator.share(shareData).catch(err => {
           // Fallback to dialog if sharing fails or is cancelled
           shareDialog.showModal();
         });
       } else {
+        if (typeof gtag === 'function') {
+          gtag('event', 'share', { 'method': 'dialog' });
+        }
         shareDialog.showModal();
       }
     });
@@ -1343,6 +1389,9 @@ function setupEventListeners() {
     navigator.clipboard.writeText("https://shortcodeicons.com").then(() => {
       const originalText = copyBtnText.textContent;
       copyBtnText.textContent = "Copied!";
+      if (typeof gtag === 'function') {
+        gtag('event', 'share_copy_link');
+      }
       setTimeout(() => {
         copyBtnText.textContent = originalText;
       }, 2000);
@@ -1380,6 +1429,17 @@ function setupEventListeners() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // run on load
   }
+
+  // Outbound Buy Me a Coffee link tracking
+  document.querySelectorAll('a[href*="buymeacoffee.com"]').forEach(link => {
+    link.addEventListener('click', () => {
+      if (typeof gtag === 'function') {
+        gtag('event', 'click_support', {
+          'location': link.classList.contains('btn-coffee-header') ? 'header' : 'footer'
+        });
+      }
+    });
+  });
 }
 
 // Render Directory Grid
@@ -1677,6 +1737,13 @@ function downloadSingleVcard(brand) {
   const vcfString = buildContactVcardString(brand);
   const filename = `${brand.id}-shortcode.vcf`;
   downloadFile(vcfString, filename, 'text/vcard;charset=utf-8');
+  if (typeof gtag === 'function') {
+    gtag('event', 'download_single_vcard', {
+      'brand_id': brand.id,
+      'brand_name': brand.name,
+      'shortcode': brand.shortcodes ? brand.shortcodes.join(',') : ''
+    });
+  }
 }
 
 // Compile and download a combined vCard for selected brands
@@ -1699,6 +1766,12 @@ function downloadCombinedVcard(brands, filename) {
       combinedVcf += buildContactVcardString(brand);
     });
     downloadFile(combinedVcf, filename, 'text/vcard;charset=utf-8');
+    if (typeof gtag === 'function') {
+      const isAll = filename.includes('all');
+      gtag('event', isAll ? 'download_all_vcards' : 'download_selected_vcards', {
+        'count': brands.length
+      });
+    }
   } catch (err) {
     console.error("Error compiling combined vCard:", err);
     showToast("Could not compile contacts: " + err.message, "error");
@@ -1733,6 +1806,12 @@ function downloadLogoPng(brandId, brandName) {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+  if (typeof gtag === 'function') {
+    gtag('event', 'download_logo_png', {
+      'brand_id': brandId,
+      'brand_name': brandName
+    });
+  }
 }
 
 // UI Category Mappings
