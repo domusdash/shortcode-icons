@@ -63,6 +63,57 @@ server.listen(8086, async () => {
     
     console.log(`Successfully generated high-fidelity OG image at: ${outputPath}`);
     
+    // Generate Apple Touch Icon (180x180 png with solid forest green background)
+    console.log('Generating Apple Touch Icon...');
+    const appleTouchIconHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>
+          html, body {
+            margin: 0;
+            padding: 0;
+            width: 180px;
+            height: 180px;
+            background: #224D30;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+          }
+          svg {
+            width: 110px;
+            height: 110px;
+            display: block;
+          }
+        </style>
+      </head>
+      <body>
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="9" r="2"/>
+          <path d="M8 14c0-2 2-3 4-3s4 1 4 3"/>
+        </svg>
+      </body>
+      </html>
+    `;
+    
+    await page.setViewport({
+      width: 180,
+      height: 180,
+      deviceScaleFactor: 1 // Apple Touch Icons must be exactly 180x180 in physical pixels
+    });
+    
+    await page.setContent(appleTouchIconHtml);
+    
+    const appleIconPath = path.join(__dirname, '..', 'apple-touch-icon.png');
+    await page.screenshot({
+      path: appleIconPath,
+      type: 'png'
+    });
+    
+    console.log(`Successfully generated Apple Touch Icon at: ${appleIconPath}`);
+    
     await browser.close();
     server.close();
     process.exit(0);
