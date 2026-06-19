@@ -5,5 +5,5 @@ COPY rights /etc/radicale/rights
 COPY users /etc/radicale/users
 COPY proxy.py /proxy.py
 
-# Run the proxy wrapper which starts Radicale on port 8081 and serves API + proxy on port 8080
-CMD ["python3", "/proxy.py"]
+# Override the entrypoint to execute the python proxy wrapper directly
+ENTRYPOINT ["python3", "/proxy.py"]
