@@ -138,7 +138,8 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path == "/api/contacts" or self.path == "/api/contacts.json":
+        clean_path = self.path.split('?')[0].rstrip('/')
+        if clean_path in ("/api/contacts", "/api/contacts.json"):
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Access-Control-Allow-Origin", "*")
