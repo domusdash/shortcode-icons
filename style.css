@@ -1042,7 +1042,7 @@ body.select-mode .card-select-wrapper {
   display: flex;
   align-items: center;
   gap: 4px;
-  max-width: 180px;
+  max-width: 320px;
   overflow-x: auto;
   padding-right: 12px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -1429,6 +1429,7 @@ dialog[open]::backdrop {
     border-right: none !important;
     padding-right: 0 !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     justify-self: start !important;
     margin-left: 0.25rem !important;
   }
