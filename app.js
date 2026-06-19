@@ -823,7 +823,7 @@ const DirectoryData = [
     name: "SKIMS",
     fullName: "SKIMS Alerts",
     category: "retail",
-    shortcodes: ["688805"],
+    shortcodes: ["68805"],
     sms: "SKIMS: Shop the new Cotton Collection now before it sells out!"
   },
   {
