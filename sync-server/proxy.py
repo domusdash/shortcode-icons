@@ -1091,7 +1091,10 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
         self.proxy_request("UNLOCK")
         
     def proxy_request(self, method):
-        url = f"http://127.0.0.1:{RADICALE_PORT}{self.path}"
+        path = self.path
+        if path.startswith(("/css/", "/js/", "/images/")):
+            path = "/.web" + path
+        url = f"http://127.0.0.1:{RADICALE_PORT}{path}"
         headers = {k: v for k, v in self.headers.items() if k.lower() != 'host'}
         
         content_length = int(self.headers.get('Content-Length', 0))
