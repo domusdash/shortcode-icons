@@ -12,7 +12,7 @@ file = /etc/radicale/rights
 
 [storage]
 type = multifilesystem
-filesystem_folder = /data
+filesystem_folder = /var/lib/radicale/collections
 
 [headers]
 Access-Control-Allow-Origin = *
