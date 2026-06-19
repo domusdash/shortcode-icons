@@ -50,74 +50,75 @@ def populate_radicale_from_json():
         sys.stderr.write(f"Error loading contacts.json: {e}\n")
         return
         
-    collection_dir = "/var/lib/radicale/collections/collection-root/public/shortcode-icons-selected"
-    os.makedirs(collection_dir, exist_ok=True)
-    
-    props_path = os.path.join(collection_dir, ".Radicale.props")
-    if not os.path.exists(props_path):
-        try:
-            with open(props_path, "w", encoding="utf-8") as f:
-                json.dump({
-                    "D:displayname": "Short Code Icons",
-                    "tag": "VADDRESSBOOK"
-                }, f)
-        except Exception as e:
-            sys.stderr.write(f"Error writing .Radicale.props: {e}\n")
-            
-    valid_filenames = set()
-    for c in contacts:
-        brand_id = c.get("id")
-        if not brand_id:
-            continue
-        filename = f"{brand_id}.vcf"
-        valid_filenames.add(filename)
+    for user in ["public", "admin"]:
+        collection_dir = f"/var/lib/radicale/collections/collection-root/{user}/shortcode-icons-selected"
+        os.makedirs(collection_dir, exist_ok=True)
         
-        fullName = c.get("fullName", c.get("name", ""))
-        name = c.get("name", "")
-        shortcodes = c.get("shortcodes", [])
-        photoBase64 = c.get("photoBase64", "")
-        sms = c.get("sms", "")
-        category = c.get("category", "services")
-        
-        if photoBase64.startswith("data:"):
+        props_path = os.path.join(collection_dir, ".Radicale.props")
+        if not os.path.exists(props_path):
             try:
-                photoBase64 = photoBase64.split(",")[1]
-            except Exception:
-                pass
+                with open(props_path, "w", encoding="utf-8") as f:
+                    json.dump({
+                        "D:displayname": "Short Code Icons",
+                        "tag": "VADDRESSBOOK"
+                    }, f)
+            except Exception as e:
+                sys.stderr.write(f"Error writing .Radicale.props for {user}: {e}\n")
                 
-        vcf = "BEGIN:VCARD\r\n"
-        vcf += "VERSION:3.0\r\n"
-        vcf += f"FN:{fullName}\r\n"
-        vcf += f"N:;{fullName};;;\r\n"
-        vcf += f"ORG:{name}\r\n"
-        vcf += "X-ABShowAs:COMPANY\r\n"
-        for sc in shortcodes:
-            vcf += f"TEL;TYPE=CELL:{sc}\r\n"
-        if photoBase64:
-            folded_photo = ""
-            for i in range(0, len(photoBase64), 70):
-                folded_photo += photoBase64[i:i+70] + "\r\n "
-            folded_photo = folded_photo.rstrip(" \r\n")
-            vcf += f"PHOTO;ENCODING=b;TYPE=JPEG:{folded_photo}\r\n"
-        if sms:
-            vcf += f"NOTE:{sms}\r\n"
-        if category:
-            vcf += f"CATEGORIES:{category}\r\n"
-        vcf += "END:VCARD\r\n"
-        
-        file_path = os.path.join(collection_dir, filename)
-        try:
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write(vcf)
-        except Exception as e:
-            sys.stderr.write(f"Error writing vCard file {filename}: {e}\n")
+        valid_filenames = set()
+        for c in contacts:
+            brand_id = c.get("id")
+            if not brand_id:
+                continue
+            filename = f"{brand_id}.vcf"
+            valid_filenames.add(filename)
             
-    try:
-        for item in os.listdir(collection_dir):
-            if item.endswith(".vcf") and item not in valid_filenames:
-                os.remove(os.path.join(collection_dir, item))
-    except Exception as e:
-        sys.stderr.write(f"Error cleaning up old vCards: {e}\n")
+            fullName = c.get("fullName", c.get("name", ""))
+            name = c.get("name", "")
+            shortcodes = c.get("shortcodes", [])
+            photoBase64 = c.get("photoBase64", "")
+            sms = c.get("sms", "")
+            category = c.get("category", "services")
+            
+            if photoBase64.startswith("data:"):
+                try:
+                    photoBase64 = photoBase64.split(",")[1]
+                except Exception:
+                    pass
+                    
+            vcf = "BEGIN:VCARD\r\n"
+            vcf += "VERSION:3.0\r\n"
+            vcf += f"FN:{fullName}\r\n"
+            vcf += f"N:;{fullName};;;\r\n"
+            vcf += f"ORG:{name}\r\n"
+            vcf += "X-ABShowAs:COMPANY\r\n"
+            for sc in shortcodes:
+                vcf += f"TEL;TYPE=CELL:{sc}\r\n"
+            if photoBase64:
+                folded_photo = ""
+                for i in range(0, len(photoBase64), 70):
+                    folded_photo += photoBase64[i:i+70] + "\r\n "
+                folded_photo = folded_photo.rstrip(" \r\n")
+                vcf += f"PHOTO;ENCODING=b;TYPE=JPEG:{folded_photo}\r\n"
+            if sms:
+                vcf += f"NOTE:{sms}\r\n"
+            if category:
+                vcf += f"CATEGORIES:{category}\r\n"
+            vcf += "END:VCARD\r\n"
+            
+            file_path = os.path.join(collection_dir, filename)
+            try:
+                with open(file_path, "w", encoding="utf-8") as f:
+                    f.write(vcf)
+            except Exception as e:
+                sys.stderr.write(f"Error writing vCard file {filename} for {user}: {e}\n")
+                
+        try:
+            for item in os.listdir(collection_dir):
+                if item.endswith(".vcf") and item not in valid_filenames:
+                    os.remove(os.path.join(collection_dir, item))
+        except Exception as e:
+            sys.stderr.write(f"Error cleaning up old vCards for {user}: {e}\n")
 
 # Populate Radicale database from contacts.json
 try:
