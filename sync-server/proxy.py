@@ -10,13 +10,14 @@ import sys
 RADICALE_PORT = 8081
 PROXY_PORT = 8080
 
-# Start radicale process
+# Start radicale process and capture output
+log_file = open("/radicale.log", "w", buffering=1)
 radicale_process = subprocess.Popen([
     "python3",
     "-m",
     "radicale",
     "--hosts", f"127.0.0.1:{RADICALE_PORT}"
-])
+], stdout=log_file, stderr=log_file)
 
 def get_contacts_from_filesystem():
     possible_paths = [
@@ -1017,6 +1018,19 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(get_admin_panel_html().encode("utf-8"))
+            return
+            
+        elif clean_path == "/api/debug":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            try:
+                with open("/radicale.log", "r") as f:
+                    logs = f.read()
+                self.wfile.write(logs.encode("utf-8"))
+            except Exception as e:
+                self.wfile.write(f"Failed to read logs: {e}".encode("utf-8"))
             return
             
         self.proxy_request("GET")
