@@ -1572,6 +1572,24 @@ function updateFloatingBar() {
   const count = selectedBrandIds.size;
   batchSelectedCount.textContent = count;
   
+  const trayContainer = document.getElementById('batch-selected-logos');
+  if (trayContainer) {
+    trayContainer.innerHTML = '';
+    selectedBrandIds.forEach(brandId => {
+      const item = DirectoryData.find(d => d.id === brandId);
+      if (item) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = 32;
+        canvas.className = 'tiny-batch-logo';
+        canvas.title = item.name;
+        const ctx = canvas.getContext('2d');
+        BrandLogos[brandId](ctx, 32);
+        trayContainer.appendChild(canvas);
+      }
+    });
+  }
+  
   if (count > 0 && isMultiSelectMode) {
     floatingBatchBar.classList.add('visible');
   } else {
