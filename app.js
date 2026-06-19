@@ -421,14 +421,14 @@ function setupEventListeners() {
     .then(async (response) => {
       const res = await response.json();
       if (response.status === 200) {
-        alert("Thank you! Your suggestion was sent successfully. We'll add the logo in our next release.");
+        showToast("Thank you! Your suggestion was sent successfully. We'll add the logo in our next release.", "success");
       } else {
-        alert("Oops! Submission failed: " + (res.message || "Please try again later."));
+        showToast("Oops! Submission failed: " + (res.message || "Please try again later."), "error");
       }
     })
     .catch(error => {
       console.error("Web3Forms Submission Error:", error);
-      alert("Network error. Please check your internet connection and try again.");
+      showToast("Network error. Please check your internet connection and try again.", "error");
     })
     .finally(() => {
       // Re-enable button, clear inputs, and close dialog
@@ -771,7 +771,7 @@ function downloadCombinedVcard(brands, filename) {
     downloadFile(combinedVcf, filename, 'text/vcard;charset=utf-8');
   } catch (err) {
     console.error("Error compiling combined vCard:", err);
-    alert("Could not compile contacts: " + err.message);
+    showToast("Could not compile contacts: " + err.message, "error");
   }
 }
 
@@ -815,4 +815,42 @@ function getCategoryLabel(category) {
     case 'food': return 'Food & Deliv';
     default: return 'Other';
   }
+}
+
+// Premium custom toast helper
+function showToast(message, type = 'success') {
+  const existingToast = document.querySelector('.toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  
+  let icon = '';
+  if (type === 'success') {
+    icon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+  } else {
+    icon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+  }
+
+  toast.innerHTML = `
+    <span class="toast-icon">${icon}</span>
+    <span class="toast-message">${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  // Trigger browser transition animations
+  setTimeout(() => {
+    toast.classList.add('visible');
+  }, 10);
+
+  // Remove toast automatically after 4 seconds
+  setTimeout(() => {
+    toast.classList.remove('visible');
+    toast.addEventListener('transitionend', () => {
+      toast.remove();
+    });
+  }, 4000);
 }
