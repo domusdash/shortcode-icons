@@ -336,6 +336,13 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
         
     def proxy_request(self, method):
         path = self.path
+        clean_path = path.split('?')[0].rstrip('/')
+        if clean_path in ("/.well-known/carddav", "/principals"):
+            self.send_response(301)
+            self.send_header("Location", "https://sync.shortcodeicons.com/public/shortcode-icons-selected/")
+            self.end_headers()
+            return
+
         if path.startswith(("/css/", "/js/", "/images/")):
             path = "/.web" + path
         url = f"http://127.0.0.1:{RADICALE_PORT}{path}"
