@@ -601,13 +601,16 @@ function setupEventListeners() {
     });
   });
 
-  // Sticky header scroll class toggle
+  // Sticky header scroll class toggle with hysteresis to prevent layout feedback jitter
   const headerEl = document.querySelector('header');
   if (headerEl) {
     const handleScroll = () => {
-      if (window.scrollY > 15) {
+      const scrollY = window.scrollY;
+      const isScrolled = headerEl.classList.contains('scrolled');
+      
+      if (!isScrolled && scrollY > 60) {
         headerEl.classList.add('scrolled');
-      } else {
+      } else if (isScrolled && scrollY < 20) {
         headerEl.classList.remove('scrolled');
       }
     };
