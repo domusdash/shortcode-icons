@@ -2,10 +2,10 @@
 [admin-write-access]
 user = admin
 collection = .*
-permission = rw
+permissions = RWrw
 
 # Give read-only access to the public user
 [public-read-access]
 user = public
 collection = .*
-permission = r
+permissions = Rr
