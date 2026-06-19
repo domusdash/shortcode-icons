@@ -83,10 +83,26 @@ function drawBrandLogo(ctx, brandId, size) {
     return;
   }
 
-  // 2. Compute sizing with padding
+  // 2. Compute sizing with padding, preserving aspect ratio
   const padding = style.padding !== undefined ? style.padding * size : 0;
-  const destSize = size - 2 * padding;
-  const offset = padding;
+  const maxDestSize = size - 2 * padding;
+
+  let destWidth = maxDestSize;
+  let destHeight = maxDestSize;
+
+  // Use natural dimensions if available to calculate aspect ratio
+  const imgRatio = (img.naturalWidth && img.naturalHeight) ? (img.naturalWidth / img.naturalHeight) : 1;
+  if (imgRatio > 1) {
+    // Landscape / wide logo
+    destHeight = maxDestSize / imgRatio;
+  } else if (imgRatio < 1) {
+    // Portrait / tall logo
+    destWidth = maxDestSize * imgRatio;
+  }
+
+  // Center horizontally and vertically inside the canvas
+  const offsetX = (size - destWidth) / 2;
+  const offsetY = (size - destHeight) / 2;
 
   // 3. Draw logo
   if (style.type === 'mono') {
@@ -97,7 +113,7 @@ function drawBrandLogo(ctx, brandId, size) {
     const tempCtx = tempCanvas.getContext('2d');
 
     // Draw SVG onto offscreen canvas
-    tempCtx.drawImage(img, offset, offset, destSize, destSize);
+    tempCtx.drawImage(img, offsetX, offsetY, destWidth, destHeight);
 
     // Fill with official brand foreground color
     tempCtx.globalCompositeOperation = 'source-in';
@@ -108,7 +124,7 @@ function drawBrandLogo(ctx, brandId, size) {
     ctx.drawImage(tempCanvas, 0, 0);
   } else {
     // Directly draw colored SVG
-    ctx.drawImage(img, offset, offset, destSize, destSize);
+    ctx.drawImage(img, offsetX, offsetY, destWidth, destHeight);
   }
 }
 
