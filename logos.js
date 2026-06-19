@@ -127,7 +127,7 @@ export const BrandStyles = {
   enterprise: { type: 'mono', bg: '#005A36', fg: '#FFFFFF', padding: 0.2 },
   mcdonalds: { type: 'mono', bg: '#F11A22', fg: '#FFC72C', padding: 0.15 },
   burgerking: { type: 'mono', bg: '#F5EBDC', fg: '#D62300', padding: 0.15 },
-  wendys: { type: 'color', bg: '#E11A22', padding: 0.15 },
+  wendys: { type: 'mono', bg: '#E11A22', fg: '#FFFFFF', padding: 0.15 },
   subway: { type: 'color', bg: '#008C44', padding: 0.18 },
   tacobell: { type: 'mono', bg: '#702082', fg: '#FFFFFF', padding: 0.2 },
   chipotle: { type: 'mono', bg: '#451400', fg: '#FFFFFF', padding: 0.2 },
