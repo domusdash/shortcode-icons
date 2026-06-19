@@ -293,6 +293,15 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
             try:
                 with open("/radicale.log", "r") as f:
                     logs = f.read()
+                # Mask forwarded IP addresses to protect user privacy
+                logs = re.sub(r"forwarded for '[^']+'", "forwarded for 'MASKED'", logs)
+                # Also mask any other external IPv4 addresses
+                def mask_ip(match):
+                    ip = match.group(0)
+                    if ip == "127.0.0.1":
+                        return ip
+                    return "xxx.xxx.xxx.xxx"
+                logs = re.sub(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", mask_ip, logs)
                 self.wfile.write(logs.encode("utf-8"))
             except Exception as e:
                 self.wfile.write(f"Failed to read logs: {e}".encode("utf-8"))
