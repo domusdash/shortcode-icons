@@ -31,7 +31,7 @@ export const BrandStyles = {
   doordash: { type: 'mono', bg: '#FF3008', fg: '#FFFFFF', padding: 0.22 },
   dominos: { type: 'color', bg: '#006491', padding: 0.15 },
   uber: { type: 'mono', bg: '#000000', fg: '#FFFFFF', padding: 0.25 },
-  lyft: { type: 'color', bg: '#FF00BF', padding: 0.2 }
+  lyft: { type: 'mono', bg: '#FF00BF', fg: '#FFFFFF', padding: 0.25 }
 };
 
 const LogoImages = {};
