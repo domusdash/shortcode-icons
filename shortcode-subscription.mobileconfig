@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>CardDAVAccountDescription</key>
+			<string>Short Code Icons</string>
+			<key>CardDAVHostName</key>
+			<string>sync.shortcodeicons.com</string>
+			<key>CardDAVUsername</key>
+			<string>public</string>
+			<key>CardDAVPassword</key>
+			<string>public</string>
+			<key>CardDAVPort</key>
+			<integer>443</integer>
+			<key>CardDAVUseSSL</key>
+			<true/>
+			<key>PayloadIdentifier</key>
+			<string>com.shortcodeicons.sync.payload</string>
+			<key>PayloadType</key>
+			<string>com.apple.carddav.account</string>
+			<key>PayloadUUID</key>
+			<string>BDA77799-5379-4176-A457-E3E2E06A4413</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>Short Code Icons Contact Sync</string>
+	<key>PayloadIdentifier</key>
+	<string>com.shortcodeicons.sync.profile</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>6A44D991-79B6-47F9-A4BD-658CC2AC6140</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>

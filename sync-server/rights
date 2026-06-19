@@ -1,0 +1,11 @@
+# Give read-write access to admin
+[admin-write-access]
+user = admin
+collection = .*
+permissions = rw
+
+# Give read-only access to the public user
+[public-read-access]
+user = public
+collection = .*
+permissions = r

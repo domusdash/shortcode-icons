@@ -1172,7 +1172,7 @@ const floatingBatchBar = document.getElementById('floating-batch-bar');
 const batchSelectedCount = document.getElementById('batch-selected-count');
 const btnBatchDownload = document.getElementById('btn-batch-download');
 const btnBatchClear = document.getElementById('btn-batch-clear');
-const btnDownloadAll = document.getElementById('btn-download-all');
+const btnSubscribe = document.getElementById('btn-subscribe');
 
 // Modals
 const instructionsDialog = document.getElementById('instructions-dialog');
@@ -1190,27 +1190,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // iOS detection to hide batch/combined vCard download features due to WebKit/Safari multi-vCard preview limits
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   if (isIOS) {
-    const btnDownloadAll = document.getElementById('btn-download-all');
     const bulkToggle = document.querySelector('.bulk-actions-toggle');
-    if (btnDownloadAll) btnDownloadAll.style.display = 'none';
     if (bulkToggle) bulkToggle.style.display = 'none';
-
-    // Upgrade Browse Senders button to primary styling since Download All is hidden
-    const btnBrowse = document.querySelector('.hero-cta .btn-secondary');
-    if (btnBrowse) {
-      btnBrowse.classList.remove('btn-secondary');
-      btnBrowse.classList.add('btn-primary');
-    }
-
-    // Adapt import instructions modal for single contact downloads
-    const step1Content = document.querySelector('.instruction-step p');
-    if (step1Content) {
-      step1Content.innerHTML = 'Tap the card of any brand in the directory, then click the download icon to download its individual vCard (.vcf) file. The file contains contact details along with the brand logo embedded directly inside.';
-    }
-    const step2Content = document.querySelectorAll('.instruction-step p')[1];
-    if (step2Content) {
-      step2Content.innerHTML = '<strong>iOS / iPhone:</strong> Tap the downloaded file in Safari, then tap <strong>Create New Contact</strong> (or <strong>Add to Existing Contact</strong>) to save it with the brand logo.<br><strong>Android:</strong> Open the downloaded file to save it, or select "Import from .vcf file" inside your Contacts app settings.';
-    }
   }
 
   setupEventListeners();
@@ -1279,10 +1260,22 @@ function setupEventListeners() {
   btnBatchClear.addEventListener('click', clearSelection);
   btnBatchDownload.addEventListener('click', downloadSelectedVcard);
 
-  // Hero Download All
-  btnDownloadAll.addEventListener('click', () => {
-    downloadCombinedVcard(DirectoryData, "shortcode-icons-all.vcf");
-  });
+  // Hero Subscribe Button
+  if (btnSubscribe) {
+    btnSubscribe.addEventListener('click', (e) => {
+      const isApple = /iPad|iPhone|iPod|Mac/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      if (!isApple) {
+        // Prevent downloading the .mobileconfig profile as it is useless on non-Apple devices
+        e.preventDefault();
+      }
+      instructionsDialog.showModal();
+      if (typeof gtag === 'function') {
+        gtag('event', 'click_subscribe_hero', {
+          'platform': isApple ? 'apple' : 'other'
+        });
+      }
+    });
+  }
 
   // Instruction Dialog Modal Events
   btnShowGuide.addEventListener('click', () => {

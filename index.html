@@ -115,7 +115,7 @@
         </div>
 
         <div class="hero-cta">
-          <button class="btn-primary" id="btn-download-all">Download All (130+ Contacts)</button>
+          <a href="shortcode-subscription.mobileconfig" class="btn-primary" id="btn-subscribe">Subscribe to Contacts</a>
           <a href="#directory" class="btn-secondary">Browse Senders</a>
         </div>
       </div>
@@ -197,47 +197,50 @@
   <!-- Instruction Dialog Modal -->
   <dialog id="instructions-dialog">
     <div class="modal-header">
-      <h2>How to Import Your Contacts</h2>
+      <h2>How to Sync Contacts</h2>
       <button class="modal-close" id="btn-close-dialog">&times;</button>
     </div>
     <div class="modal-body">
       
-      <div class="instruction-step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h3>Download the vCard (.vcf) file</h3>
-          <p>Click "Download All" or select specific cards and download. The `.vcf` file contains the contact details along with the brand logo image embedded directly inside.</p>
+      <!-- Option 1: Live Sync -->
+      <div class="modal-option-card recommended">
+        <div class="option-badge">Recommended</div>
+        <h3>Option 1: Live Sync (CardDAV)</h3>
+        <p class="option-desc">Keep your contacts updated automatically! Whenever brand logos or shortcodes are updated on our server, your phone will sync them without redownloading.</p>
+        
+        <div class="sync-instructions" id="sync-instructions-ios">
+          <h4>For iPhone, iPad & Mac:</h4>
+          <p style="margin-bottom: 0.75rem;">Get one-click setup using an Apple Configuration Profile:</p>
+          <ol style="margin-left: 1.25rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; display: flex; flex-direction: column; gap: 0.25rem;">
+            <li>Tap <a href="shortcode-subscription.mobileconfig" class="link-highlight">Download Sync Profile</a>.</li>
+            <li>Open the <strong>Settings</strong> app on your device.</li>
+            <li>Tap <strong>Profile Downloaded</strong> at the top.</li>
+            <li>Tap <strong>Install</strong> in the top-right corner and enter your passcode.</li>
+          </ol>
+          <a href="shortcode-subscription.mobileconfig" class="btn-primary btn-modal-action" style="display: inline-block; text-decoration: none; text-align: center; font-size: 0.85rem; padding: 0.5rem 1.2rem; border-radius: var(--radius-pill); margin-bottom: 0.5rem;">Download Sync Profile</a>
+        </div>
+        
+        <div class="sync-instructions" id="sync-instructions-android" style="margin-top: 1rem; border-top: 1px solid var(--border-light); padding-top: 1rem;">
+          <h4>For Android & other devices:</h4>
+          <p style="margin-bottom: 0.5rem;">Add a manual <strong>CardDAV</strong> account in your settings (or use a sync tool like DAVx⁵):</p>
+          <div class="credential-box" style="background: var(--bg-main); border: 1px solid var(--border-light); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-family: var(--font-mono); display: grid; gap: 0.25rem;">
+            <div><strong>Server:</strong> sync.shortcodeicons.com</div>
+            <div><strong>Username:</strong> public</div>
+            <div><strong>Password:</strong> public</div>
+            <div><strong>Port:</strong> 443 (SSL enabled)</div>
+          </div>
         </div>
       </div>
-
-      <div class="instruction-step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h3>Transfer/Open on your Mobile Device</h3>
-          <p>
-            <strong>iOS / iPhone:</strong> AirDrop the file from your Mac, or email it to yourself. If downloading directly in Safari on your iPhone, tap the download icon in Safari, open the file, tap the <strong>Share</strong> button, and select <strong>Contacts</strong> to import the entire batch at once.<br>
-            <strong>Android:</strong> Email the file to yourself, save it to Google Drive, or transfer it to your phone's storage.
-          </p>
-        </div>
-      </div>
-
-      <div class="instruction-step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h3>Import into Contacts app</h3>
-          <p>
-            <strong>iOS:</strong> When you open the file, tap "Add All Contacts" on the top of the contact list view. In a few seconds, the contacts will be imported with the company logos.<br>
-            <strong>Android:</strong> Open the Contacts app, select "Manage Contacts" or "Settings," tap "Import/Export," choose "Import from .vcf file," and select the downloaded file.
-          </p>
-        </div>
-      </div>
-
-      <div class="instruction-step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h3>Verify in Messages</h3>
-          <p>Open your text messages list. The boring shortcodes and raw numbers will now show the brand names and colored logos, cleaning up your inbox!</p>
-        </div>
+      
+      <!-- Option 2: Offline Fallback -->
+      <div class="modal-option-card">
+        <h3>Option 2: Offline Fallback</h3>
+        <p class="option-desc">Download individual brand vCards manually. No accounts or sync settings required.</p>
+        <ol style="margin-left: 1.25rem; font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.25rem;">
+          <li>Browse the directory of brands.</li>
+          <li>Click the <strong>vCard</strong> button on any brand to download its individual <code>.vcf</code> file.</li>
+          <li>Open the downloaded file to save it directly to your contacts list.</li>
+        </ol>
       </div>
 
     </div>
