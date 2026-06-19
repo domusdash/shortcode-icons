@@ -10,6 +10,10 @@ htpasswd_encryption = bcrypt
 type = from_file
 file = /etc/radicale/rights
 
+[storage]
+type = filesystem
+filesystem_folder = /data
+
 [headers]
 Access-Control-Allow-Origin = *
 Access-Control-Allow-Methods = GET, POST, OPTIONS, PROPFIND, PROPPATCH, REPORT, PUT, MOVE, DELETE, LOCK, UNLOCK
