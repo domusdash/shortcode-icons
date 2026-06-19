@@ -249,12 +249,7 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
         pass
 
     def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PROPFIND, PROPPATCH, REPORT, PUT, MOVE, DELETE, LOCK, UNLOCK")
-        self.send_header("Access-Control-Allow-Headers", "User-Agent, Authorization, Content-type, Depth, If-match, If-None-Match, Lock-Token, Timeout, Destination, Overwrite, X-client, X-Requested-With")
-        self.send_header("Access-Control-Expose-Headers", "Etag")
-        self.end_headers()
+        self.proxy_request("OPTIONS")
 
     def do_GET(self):
         clean_path = self.path.split('?')[0].rstrip('/')
@@ -272,6 +267,7 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
             except Exception as e:
                 contacts = get_contacts_from_filesystem()
                 self.wfile.write(json.dumps(contacts).encode("utf-8"))
+            return
         elif clean_path in ("/subscription.mobileconfig", "/shortcode-subscription.mobileconfig"):
             self.send_response(200)
             self.send_header("Content-Type", "application/x-apple-aspen-config")
@@ -339,7 +335,7 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
         clean_path = path.split('?')[0].rstrip('/')
         if clean_path == "/.well-known/carddav" or clean_path.startswith("/principals"):
             self.send_response(301)
-            self.send_header("Location", "https://sync.shortcodeicons.com/public/shortcode-icons-selected/")
+            self.send_header("Location", "/")
             self.end_headers()
             return
 
