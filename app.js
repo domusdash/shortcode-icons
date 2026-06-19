@@ -600,6 +600,20 @@ function setupEventListeners() {
       console.error("Failed to copy text: ", err);
     });
   });
+
+  // Sticky header scroll class toggle
+  const headerEl = document.querySelector('header');
+  if (headerEl) {
+    const handleScroll = () => {
+      if (window.scrollY > 15) {
+        headerEl.classList.add('scrolled');
+      } else {
+        headerEl.classList.remove('scrolled');
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // run on load
+  }
 }
 
 // Render Directory Grid
