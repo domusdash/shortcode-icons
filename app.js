@@ -396,6 +396,36 @@ function setupEventListeners() {
     submitForm.reset();
     submitDialog.close();
   });
+
+  // Share Modal
+  const shareDialog = document.getElementById('share-dialog');
+  const btnHeaderShare = document.getElementById('btn-header-share');
+  const btnCloseShare = document.getElementById('btn-close-share');
+  const btnModalCopyLink = document.getElementById('btn-modal-copy-link');
+  const copyBtnText = document.getElementById('copy-btn-text');
+
+  if (btnHeaderShare) {
+    btnHeaderShare.addEventListener('click', () => shareDialog.showModal());
+  }
+  btnCloseShare.addEventListener('click', () => shareDialog.close());
+  shareDialog.addEventListener('click', (e) => {
+    const rect = shareDialog.getBoundingClientRect();
+    if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+      shareDialog.close();
+    }
+  });
+
+  btnModalCopyLink.addEventListener('click', () => {
+    navigator.clipboard.writeText("https://shortcodeicons.com").then(() => {
+      const originalText = copyBtnText.textContent;
+      copyBtnText.textContent = "Copied!";
+      setTimeout(() => {
+        copyBtnText.textContent = originalText;
+      }, 2000);
+    }).catch(err => {
+      console.error("Failed to copy text: ", err);
+    });
+  });
 }
 
 // Render Directory Grid
@@ -465,26 +495,6 @@ function renderGrid() {
 
     gridContainer.appendChild(clone);
   });
-
-  // Append Viral Share Card at the end of the grid results to drive traffic for ad revenue
-  const promoEl = document.createElement('div');
-  promoEl.className = 'card premium-promo-card';
-  promoEl.innerHTML = `
-    <div class="premium-badge" style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);">Support the Project</div>
-    <h3>Spread the Word!</h3>
-    <p>SMS Avatars is 100% free and open-source. Share this tool to help others identify automated shortcodes and keep this site free.</p>
-    <div class="share-buttons-container" style="display: flex; flex-direction: column; gap: 0.6rem; width: 100%;">
-      <a href="https://twitter.com/intent/tweet?text=Clean%20up%20your%20text%20messages%20inbox!%20Banish%20cryptic%20numbers%20and%20gray%20bubbles%20with%20custom%20brand%20logos%20on%20https%3A%2F%2Fshortcodeicons.com%20%23SMS" target="_blank" class="btn-primary premium-buy-btn" id="btn-share-twitter" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background: #1DA1F2; box-shadow: 0 4px 15px rgba(29, 161, 242, 0.2);">Share on Twitter</a>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fshortcodeicons.com" target="_blank" class="btn-primary premium-buy-btn" id="btn-share-facebook" style="text-decoration: none; display: flex; align-items: center; justify-content: center; background: #1877F2; box-shadow: 0 4px 15px rgba(24, 119, 242, 0.2);">Share on Facebook</a>
-    </div>
-  `;
-  promoEl.querySelector('#btn-share-twitter').addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
-  promoEl.querySelector('#btn-share-facebook').addEventListener('click', (e) => {
-    e.stopPropagation();
-  });
-  gridContainer.appendChild(promoEl);
 }
 
 // Render Phone Mockup Chat Items (One-time render)
