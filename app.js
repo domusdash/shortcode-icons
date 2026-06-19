@@ -1187,6 +1187,32 @@ const toggleBranded = document.getElementById('toggle-branded');
 
 // Initialize Website
 document.addEventListener('DOMContentLoaded', () => {
+  // iOS detection to hide batch/combined vCard download features due to WebKit/Safari multi-vCard preview limits
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (isIOS) {
+    const btnDownloadAll = document.getElementById('btn-download-all');
+    const bulkToggle = document.querySelector('.bulk-actions-toggle');
+    if (btnDownloadAll) btnDownloadAll.style.display = 'none';
+    if (bulkToggle) bulkToggle.style.display = 'none';
+
+    // Upgrade Browse Senders button to primary styling since Download All is hidden
+    const btnBrowse = document.querySelector('.hero-cta .btn-secondary');
+    if (btnBrowse) {
+      btnBrowse.classList.remove('btn-secondary');
+      btnBrowse.classList.add('btn-primary');
+    }
+
+    // Adapt import instructions modal for single contact downloads
+    const step1Content = document.querySelector('.instruction-step p');
+    if (step1Content) {
+      step1Content.innerHTML = 'Tap the card of any brand in the directory, then click the download icon to download its individual vCard (.vcf) file. The file contains contact details along with the brand logo embedded directly inside.';
+    }
+    const step2Content = document.querySelectorAll('.instruction-step p')[1];
+    if (step2Content) {
+      step2Content.innerHTML = '<strong>iOS / iPhone:</strong> Tap the downloaded file in Safari, then tap <strong>Create New Contact</strong> (or <strong>Add to Existing Contact</strong>) to save it with the brand logo.<br><strong>Android:</strong> Open the downloaded file to save it, or select "Import from .vcf file" inside your Contacts app settings.';
+    }
+  }
+
   setupEventListeners();
   updateSearchPlaceholder();
   window.addEventListener('resize', updateSearchPlaceholder);
