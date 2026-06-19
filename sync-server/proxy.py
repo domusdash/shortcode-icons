@@ -272,8 +272,23 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
             except Exception as e:
                 contacts = get_contacts_from_filesystem()
                 self.wfile.write(json.dumps(contacts).encode("utf-8"))
+        elif clean_path in ("/subscription.mobileconfig", "/shortcode-subscription.mobileconfig"):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/x-apple-aspen-config")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            profile_path = "/shortcode-subscription.mobileconfig"
+            if not os.path.exists(profile_path):
+                profile_path = os.path.join(os.path.dirname(__file__), "..", "shortcode-subscription.mobileconfig")
+                if not os.path.exists(profile_path):
+                    profile_path = os.path.join(os.path.dirname(__file__), "shortcode-subscription.mobileconfig")
+            try:
+                with open(profile_path, "rb") as f:
+                    self.wfile.write(f.read())
+            except Exception as e:
+                self.wfile.write(f"Failed to load profile: {e}".encode("utf-8"))
             return
-            
+
         elif clean_path == "/api/debug":
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")

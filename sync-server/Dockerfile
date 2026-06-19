@@ -4,6 +4,7 @@ COPY config /etc/radicale/config
 COPY rights /etc/radicale/rights
 COPY users /etc/radicale/users
 COPY contacts.json /contacts.json
+COPY shortcode-subscription.mobileconfig /shortcode-subscription.mobileconfig
 COPY proxy.py /proxy.py
 
 # Override the entrypoint to execute the python proxy wrapper directly
