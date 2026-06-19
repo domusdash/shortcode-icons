@@ -1031,6 +1031,7 @@ body.select-mode .card-select-wrapper {
 .floating-count {
   font-size: 0.98rem;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .floating-count span {
@@ -1042,7 +1043,8 @@ body.select-mode .card-select-wrapper {
   display: flex;
   align-items: center;
   gap: 4px;
-  max-width: 400px;
+  max-width: 480px;
+  flex-shrink: 0;
   overflow-x: auto;
   padding-right: 12px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -1064,6 +1066,7 @@ body.select-mode .card-select-wrapper {
 .floating-buttons {
   display: flex;
   gap: 0.85rem;
+  flex-shrink: 0;
 }
 
 .floating-buttons button {
