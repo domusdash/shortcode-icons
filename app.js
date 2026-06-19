@@ -1836,6 +1836,7 @@ function buildContactVcardString(brand) {
 
     let vcf = `BEGIN:VCARD\r\n`;
     vcf += `VERSION:3.0\r\n`;
+    vcf += `UID:${brand.id}\r\n`;
     vcf += `FN:${brand.fullName}\r\n`;
     vcf += `N:;${brand.fullName};;;\r\n`;
     vcf += `ORG:${brand.name}\r\n`;
@@ -1854,6 +1855,7 @@ function buildContactVcardString(brand) {
     // Resilient fallback: compile contact without photo to prevent breaking the batch loop
     let vcf = `BEGIN:VCARD\r\n`;
     vcf += `VERSION:3.0\r\n`;
+    vcf += `UID:${brand.id}\r\n`;
     vcf += `FN:${brand.fullName}\r\n`;
     vcf += `N:;${brand.fullName};;;\r\n`;
     vcf += `ORG:${brand.name}\r\n`;
