@@ -1768,6 +1768,7 @@ function buildContactVcardString(brand) {
     vcf += `FN:${brand.fullName}\r\n`;
     vcf += `N:;${brand.fullName};;;\r\n`;
     vcf += `ORG:${brand.name}\r\n`;
+    vcf += `X-ABShowAs:COMPANY\r\n`;
     
     // Add all shortcodes as cellular numbers
     brand.shortcodes.forEach(sc => {
@@ -1785,6 +1786,7 @@ function buildContactVcardString(brand) {
     vcf += `FN:${brand.fullName}\r\n`;
     vcf += `N:;${brand.fullName};;;\r\n`;
     vcf += `ORG:${brand.name}\r\n`;
+    vcf += `X-ABShowAs:COMPANY\r\n`;
     
     brand.shortcodes.forEach(sc => {
       vcf += `TEL;TYPE=CELL:${sc}\r\n`;
