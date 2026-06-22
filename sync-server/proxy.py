@@ -10,6 +10,80 @@ import sys
 RADICALE_PORT = 8081
 PROXY_PORT = 8080
 
+SUBSCRIBERS_FILE = "/var/lib/radicale/collections/subscribers.json"
+# Fallback to local directory if storage not writable/existent
+if not os.path.exists("/var/lib/radicale/collections"):
+    SUBSCRIBERS_FILE = os.path.join(os.path.dirname(__file__), "subscribers.json")
+
+# Seed with the 1 subscriber found in historical logs if file doesn't exist
+if not os.path.exists(SUBSCRIBERS_FILE):
+    try:
+        os.makedirs(os.path.dirname(SUBSCRIBERS_FILE), exist_ok=True)
+        # Seed with a placeholder hash representing the historical iOS subscriber
+        initial_subscribers = {
+            "historical_ios_subscriber_hash": 1782000000.0
+        }
+        with open(SUBSCRIBERS_FILE, "w") as f:
+            json.dump(initial_subscribers, f)
+    except Exception:
+        pass
+
+def is_carddav_client(ua):
+    if not ua:
+        return False
+    ua_lower = ua.lower()
+    keywords = ["dataaccessd", "davx5", "davx", "contacts", "carddav", "iphone", "ipad", "macintosh", "cfnetwork", "darwin"]
+    if any(kw in ua_lower for kw in keywords):
+        exclude = ["leakix", "bot", "crawler", "spider", "scan", "audit"]
+        if not any(ex in ua_lower for ex in exclude):
+            return True
+    return False
+
+def track_subscriber(handler):
+    path = handler.path
+    clean_path = path.split('?')[0].rstrip('/')
+    if not (clean_path.startswith("/public") or clean_path.startswith("/principals") or clean_path == "" or clean_path == "/"):
+        return
+        
+    ua = handler.headers.get("User-Agent", "")
+    if not is_carddav_client(ua):
+        return
+        
+    ip = handler.headers.get("X-Forwarded-For") or handler.headers.get("X-Real-IP") or handler.client_address[0]
+    if ip and "," in ip:
+        ip = ip.split(",")[0].strip()
+        
+    import hashlib
+    import time
+    subscriber_hash = hashlib.sha256(f"{ip}:{ua}".encode("utf-8")).hexdigest()
+    
+    try:
+        subscribers = {}
+        if os.path.exists(SUBSCRIBERS_FILE):
+            with open(SUBSCRIBERS_FILE, "r") as f:
+                subscribers = json.load(f)
+        
+        now = time.time()
+        last_seen = subscribers.get(subscriber_hash, 0)
+        if now - last_seen > 3600:  # only update once an hour to minimize disk writes
+            subscribers[subscriber_hash] = now
+            os.makedirs(os.path.dirname(SUBSCRIBERS_FILE), exist_ok=True)
+            with open(SUBSCRIBERS_FILE, "w") as f:
+                json.dump(subscribers, f)
+    except Exception as e:
+        sys.stderr.write(f"Error tracking subscriber: {e}\n")
+
+def get_subscriber_count():
+    try:
+        if os.path.exists(SUBSCRIBERS_FILE):
+            with open(SUBSCRIBERS_FILE, "r") as f:
+                subscribers = json.load(f)
+            return len(subscribers)
+    except Exception:
+        pass
+    return 0
+
+
 # Start radicale process and capture output
 log_file = open("/radicale.log", "w", buffering=1)
 log_file.write("Starting proxy helper...\n")
@@ -307,6 +381,14 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write(f"Failed to read logs: {e}".encode("utf-8"))
             return
             
+        elif clean_path == "/api/subscribers":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            count = get_subscriber_count()
+            self.wfile.write(json.dumps({"count": count}).encode("utf-8"))
+            return
         self.proxy_request("GET")
         
     def do_POST(self):
@@ -340,6 +422,10 @@ class ProxyHandler(http.server.BaseHTTPRequestHandler):
         self.proxy_request("UNLOCK")
         
     def proxy_request(self, method):
+        try:
+            track_subscriber(self)
+        except Exception as e:
+            sys.stderr.write(f"Error calling track_subscriber: {e}\n")
         path = self.path
         clean_path = path.split('?')[0].rstrip('/')
         if clean_path == "/.well-known/carddav" or clean_path.startswith("/principals"):

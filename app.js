@@ -1206,6 +1206,32 @@ async function loadLiveContacts() {
   }
 }
 
+async function loadSubscriberCount() {
+  try {
+    const response = await fetch('https://sync.shortcodeicons.com/api/subscribers');
+    if (!response.ok) {
+      throw new Error(`API returned HTTP ${response.status}`);
+    }
+    const data = await response.json();
+    const count = data.count || 0;
+    
+    const countSpan = document.getElementById('subscriber-count');
+    const statsDiv = document.getElementById('subscriber-stats');
+    
+    if (countSpan && statsDiv) {
+      countSpan.textContent = count;
+      if (count > 100) {
+        statsDiv.style.display = 'block';
+      } else {
+        statsDiv.style.display = 'none';
+      }
+    }
+  } catch (err) {
+    console.warn("Failed to load subscriber count:", err);
+  }
+}
+
+
 function drawContactLogo(canvas, brand) {
   const ctx = canvas.getContext('2d');
   const size = canvas.width;
@@ -1273,6 +1299,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load contacts from CardDAV JSON API
   await loadLiveContacts();
+  await loadSubscriberCount();
 
   // Wait for both custom fonts and logo SVGs to load before initial render
   const fontPromise = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
