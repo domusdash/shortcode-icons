@@ -1158,6 +1158,8 @@ const DirectoryData = [
 ];
 
 // App State
+const isSendersPage = window.location.pathname.includes('senders');
+let showcaseData = [];
 let selectedCategory = 'all';
 let searchQuery = '';
 let isMultiSelectMode = false;
@@ -1203,6 +1205,11 @@ async function loadLiveContacts() {
     }
   } catch (err) {
     console.warn("Failed to load contacts from CardDAV server API, falling back to local list:", err);
+  }
+  
+  // Populate showcase data if on home page
+  if (!isSendersPage) {
+    showcaseData = [...DirectoryData].sort(() => 0.5 - Math.random()).slice(0, 10);
   }
 }
 
@@ -1323,47 +1330,58 @@ function updateSearchPlaceholder() {
 // Event Listeners
 function setupEventListeners() {
   // Search
-  searchBar.addEventListener('input', (e) => {
-    searchQuery = e.target.value.toLowerCase().trim();
-    displayLimit = 24; // Reset display limit on new search
-    renderGrid();
-  });
+  if (searchBar) {
+    searchBar.addEventListener('input', (e) => {
+      searchQuery = e.target.value.toLowerCase().trim();
+      displayLimit = 24; // Reset display limit on new search
+      renderGrid();
+    });
+  }
 
   // Category Filter
-  categoryFilters.addEventListener('click', (e) => {
-    if (e.target.classList.contains('filter-chip')) {
-      document.querySelector('.filter-chip.active').classList.remove('active');
-      e.target.classList.add('active');
-      selectedCategory = e.target.dataset.category;
-      displayLimit = 24; // Reset display limit on category change
-      renderGrid();
-      if (typeof gtag === 'function') {
-        gtag('event', 'filter_category', {
-          'category': selectedCategory
-        });
+  if (categoryFilters) {
+    categoryFilters.addEventListener('click', (e) => {
+      if (e.target.classList.contains('filter-chip')) {
+        const activeChip = document.querySelector('.filter-chip.active');
+        if (activeChip) activeChip.classList.remove('active');
+        e.target.classList.add('active');
+        selectedCategory = e.target.dataset.category;
+        displayLimit = 24; // Reset display limit on category change
+        renderGrid();
+        if (typeof gtag === 'function') {
+          gtag('event', 'filter_category', {
+            'category': selectedCategory
+          });
+        }
       }
-    }
-  });
+    });
+  }
 
   // Multi-Select Mode Toggle
-  multiSelectCheckbox.addEventListener('change', (e) => {
-    isMultiSelectMode = e.target.checked;
-    if (isMultiSelectMode) {
-      document.body.classList.add('select-mode');
-    } else {
-      document.body.classList.remove('select-mode');
-      clearSelection();
-    }
-    if (typeof gtag === 'function') {
-      gtag('event', 'toggle_multi_select', {
-        'enabled': isMultiSelectMode
-      });
-    }
-  });
+  if (multiSelectCheckbox) {
+    multiSelectCheckbox.addEventListener('change', (e) => {
+      isMultiSelectMode = e.target.checked;
+      if (isMultiSelectMode) {
+        document.body.classList.add('select-mode');
+      } else {
+        document.body.classList.remove('select-mode');
+        clearSelection();
+      }
+      if (typeof gtag === 'function') {
+        gtag('event', 'toggle_multi_select', {
+          'enabled': isMultiSelectMode
+        });
+      }
+    });
+  }
 
   // Batch actions
-  btnBatchClear.addEventListener('click', clearSelection);
-  btnBatchDownload.addEventListener('click', downloadSelectedVcard);
+  if (btnBatchClear) {
+    btnBatchClear.addEventListener('click', clearSelection);
+  }
+  if (btnBatchDownload) {
+    btnBatchDownload.addEventListener('click', downloadSelectedVcard);
+  }
 
 
 
@@ -1409,9 +1427,11 @@ function setupEventListeners() {
     });
   }
 
-  btnCloseDialog.addEventListener('click', () => {
-    instructionsDialog.close();
-  });
+  if (btnCloseDialog) {
+    btnCloseDialog.addEventListener('click', () => {
+      instructionsDialog.close();
+    });
+  }
 
   // Close dialog on clicking backdrop
   instructionsDialog.addEventListener('click', (e) => {
@@ -1427,27 +1447,31 @@ function setupEventListeners() {
   });
 
   // Phone Mockup Toggles
-  toggleBoring.addEventListener('click', () => {
-    toggleBoring.classList.add('active');
-    toggleBranded.classList.remove('active');
-    phoneMockup.classList.remove('branded-mode');
-    if (typeof gtag === 'function') {
-      gtag('event', 'toggle_mockup', {
-        'state': 'before'
-      });
-    }
-  });
+  if (toggleBoring) {
+    toggleBoring.addEventListener('click', () => {
+      toggleBoring.classList.add('active');
+      if (toggleBranded) toggleBranded.classList.remove('active');
+      if (phoneMockup) phoneMockup.classList.remove('branded-mode');
+      if (typeof gtag === 'function') {
+        gtag('event', 'toggle_mockup', {
+          'state': 'before'
+        });
+      }
+    });
+  }
 
-  toggleBranded.addEventListener('click', () => {
-    toggleBranded.classList.add('active');
-    toggleBoring.classList.remove('active');
-    phoneMockup.classList.add('branded-mode');
-    if (typeof gtag === 'function') {
-      gtag('event', 'toggle_mockup', {
-        'state': 'after'
-      });
-    }
-  });
+  if (toggleBranded) {
+    toggleBranded.addEventListener('click', () => {
+      toggleBranded.classList.add('active');
+      if (toggleBoring) toggleBoring.classList.remove('active');
+      if (phoneMockup) phoneMockup.classList.add('branded-mode');
+      if (typeof gtag === 'function') {
+        gtag('event', 'toggle_mockup', {
+          'state': 'after'
+        });
+      }
+    });
+  }
 
   // Privacy Modal
   const privacyDialog = document.getElementById('privacy-dialog');
@@ -1652,10 +1676,15 @@ function setupEventListeners() {
 
 // Render Directory Grid
 function renderGrid() {
+  if (!gridContainer) return;
   gridContainer.innerHTML = '';
   const template = document.getElementById('card-template');
 
-  const filteredData = DirectoryData.filter(item => {
+  const sourceData = isSendersPage ? DirectoryData : showcaseData;
+
+  const filteredData = sourceData.filter(item => {
+    if (!isSendersPage) return true;
+    
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
     const matchesSearch = item.name.toLowerCase().includes(searchQuery) ||
                           item.fullName.toLowerCase().includes(searchQuery) ||
@@ -1667,14 +1696,14 @@ function renderGrid() {
   // Toggle load-more button container visibility
   const loadMoreContainer = document.getElementById('load-more-container');
   if (loadMoreContainer) {
-    if (filteredData.length > displayLimit) {
+    if (isSendersPage && filteredData.length > displayLimit) {
       loadMoreContainer.style.display = 'flex';
     } else {
       loadMoreContainer.style.display = 'none';
     }
   }
 
-  const itemsToRender = filteredData.slice(0, displayLimit);
+  const itemsToRender = isSendersPage ? filteredData.slice(0, displayLimit) : filteredData;
   itemsToRender.forEach(item => {
     const clone = template.content.cloneNode(true);
     const cardEl = clone.querySelector('.card');
@@ -1726,6 +1755,7 @@ function renderGrid() {
 
 // Render Phone Mockup Chat Items (One-time render)
 function renderPhoneMockup() {
+  if (!phoneChatList) return;
   phoneChatList.innerHTML = '';
   
   // Random name generator helper
