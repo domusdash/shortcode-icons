@@ -1087,7 +1087,7 @@ const DirectoryData = [
     name: "Walgreens",
     fullName: "Walgreens Pharmacy",
     category: "services",
-    shortcodes: ["92547"],
+    shortcodes: ["52650"],
     sms: "Walgreens: Your prescription #12345 is ready."
   },
   {
