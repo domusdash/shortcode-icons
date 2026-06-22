@@ -891,6 +891,14 @@ const DirectoryData = [
     sms: "Squarespace: Your security verification code is 123456."
   },
   {
+    id: "staples",
+    name: "Staples",
+    fullName: "Staples Alerts",
+    category: "retail",
+    shortcodes: ["41350"],
+    sms: "Staples: Your order #12345 is ready for pickup."
+  },
+  {
     id: "starbucks",
     name: "Starbucks",
     fullName: "Starbucks Rewards",

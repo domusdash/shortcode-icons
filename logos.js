@@ -114,6 +114,7 @@ export const BrandStyles = {
   spectrum: { type: 'mono', bg: '#003057', fg: '#FFFFFF', padding: 0.2 },
   spotify: { type: 'mono', bg: '#1DB954', fg: '#FFFFFF', padding: 0.2 },
   squarespace: { type: 'mono', bg: '#000000', fg: '#FFFFFF', padding: 0.22 },
+  staples: { type: 'mono', bg: '#C8102E', fg: '#FFFFFF', padding: 0.22 },
   starbucks: { type: 'mono', bg: '#006241', fg: '#FFFFFF', padding: 0.15 },
   steam: { type: 'mono', bg: '#171A21', fg: '#FFFFFF', padding: 0.2 },
   stripe: { type: 'mono', bg: '#635BFF', fg: '#FFFFFF', padding: 0.25 },
