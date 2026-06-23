@@ -599,7 +599,7 @@ const DirectoryData = [
     name: "Meta / Facebook",
     fullName: "Meta Security",
     category: "tech",
-    shortcodes: ["32665"],
+    shortcodes: ["32665", "32099"],
     sms: "123456 is your Facebook security code."
   },
   {
