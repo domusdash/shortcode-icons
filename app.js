@@ -1198,6 +1198,15 @@ const toggleBranded = document.getElementById('toggle-branded');
 
 // API Loader & Logo Renderers for CardDAV Source of Truth
 async function loadLiveContacts() {
+  // If running locally, don't override with live production contacts so local changes can be tested/generated
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    console.log("Running locally; using local DirectoryData.");
+    if (!isSendersPage) {
+      showcaseData = [...DirectoryData].sort(() => 0.5 - Math.random()).slice(0, 10);
+    }
+    return;
+  }
+
   try {
     const response = await fetch('https://sync.shortcodeicons.com/api/contacts');
     if (!response.ok) {
