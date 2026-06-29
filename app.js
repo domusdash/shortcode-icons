@@ -1509,6 +1509,22 @@ function setupEventListeners() {
     }
   });
 
+  // Terms Modal
+  const termsDialog = document.getElementById('terms-dialog');
+  const btnShowTerms = document.getElementById('btn-show-terms');
+  const btnCloseTerms = document.getElementById('btn-close-terms');
+
+  if (termsDialog && btnShowTerms && btnCloseTerms) {
+    btnShowTerms.addEventListener('click', () => termsDialog.showModal());
+    btnCloseTerms.addEventListener('click', () => termsDialog.close());
+    termsDialog.addEventListener('click', (e) => {
+      const rect = termsDialog.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom) {
+        termsDialog.close();
+      }
+    });
+  }
+
   // Submit Modal
   const submitDialog = document.getElementById('submit-dialog');
   const btnSubmitCode = document.getElementById('btn-submit-code');

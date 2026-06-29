@@ -171,6 +171,59 @@
       </div>
     </section>
 
+    <!-- Educational Guide & Technical Overview Section for SEO & AdSense -->
+    <section class="guide-section" style="margin-top: 4rem; padding: 3rem 2rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-md);">
+      <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem;">
+        <div style="text-align: center; margin-bottom: 0.5rem;">
+          <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">Understanding SMS Shortcodes & Branded Sender Identification</h2>
+          <p style="color: var(--text-muted); font-size: 1.05rem;">Learn how 5-digit and 6-digit text senders work, why they appear as mystery numbers in your inbox, and how custom contact cards organize your messaging experience.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <div style="background: var(--bg-main); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <h3 style="font-family: var(--font-heading); color: var(--text-primary); font-size: 1.2rem; margin-bottom: 0.75rem;">
+              📱 What is an SMS Short Code?
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+              An SMS short code is a special 5-digit or 6-digit phone number utilized by commercial enterprises, financial institutions, and service providers to send high-volume automated text messages. Unlike standard 10-digit mobile numbers, shortcodes are specially routed by wireless carriers (such as AT&T, Verizon, and T-Mobile) to deliver instant Two-Factor Authentication (2FA) verification codes, fraud alerts, flight status updates, and delivery tracking notifications.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-main); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <h3 style="font-family: var(--font-heading); color: var(--text-primary); font-size: 1.2rem; margin-bottom: 0.75rem;">
+              🏷️ Why Do Texts Show Up as Unknown Numbers?
+            </h3>
+            <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+              Mobile operating systems like iOS and Android do not maintain a built-in public directory of corporate shortcodes. When Google (e.g. 22000), Amazon (e.g. 262966), or Chase Bank sends a security verification code, your device displays the raw numeric string instead of the recognized brand avatar. This creates a cluttered inbox filled with anonymous chat bubbles and unrecognized senders.
+            </p>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-main); padding: 1.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-top: 0.5rem;">
+          <h3 style="font-family: var(--font-heading); color: var(--text-primary); font-size: 1.3rem; margin-bottom: 1rem;">
+            🛠️ How Short Code Icons Restores Brand Recognition to Your Inbox
+          </h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+            Short Code Icons bridges the visual gap between automated system messaging and modern mobile operating systems. By pairing verified corporate shortcode numbers with high-resolution brand logos and standardized VCF (Virtual Contact File) cards, our platform transforms cryptic numeric senders into recognizable contact profiles in your native Apple Messages or Android Messages application.
+          </p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <span style="background: var(--primary-light); color: var(--primary); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">1</span>
+              <div><strong>Instant Visual Clarity:</strong> Identify incoming 2FA passcodes and package delivery alerts at a glance without reading through mystery sender headers.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <span style="background: var(--primary-light); color: var(--primary); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">2</span>
+              <div><strong>CardDAV Live Sync:</strong> Subscribe once via CardDAV standard protocols to receive automatic cloud updates whenever new brand shortcodes or updated high-res logos are added to our global directory.</div>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+              <span style="background: var(--primary-light); color: var(--primary); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">3</span>
+              <div><strong>100% Client-Side Privacy:</strong> Offline vCard compiled downloads and CardDAV directory lookups operate with complete user privacy—no phone numbers, message contents, or user accounts are ever tracked or stored.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FAQ Section -->
     <section class="faq-section" id="faq">
       <h2 class="faq-title">Frequently Asked Questions</h2>
@@ -241,6 +294,8 @@
       <div class="footer-links">
         <div class="footer-links-row">
           <button id="btn-show-privacy" class="footer-btn">Privacy Policy</button>
+          <span class="divider">|</span>
+          <button id="btn-show-terms" class="footer-btn">Terms of Service</button>
           <span class="divider">|</span>
           <button id="btn-submit-code" class="footer-btn">Submit Shortcode</button>
         </div>
@@ -362,6 +417,21 @@
       <p><strong>Live CardDAV Sync:</strong> We host a public, read-only synchronization server (<code>sync.shortcodeicons.com</code>) to deliver brand logo updates directly to your device. This server does not require registration, does not collect personal information, and only hosts the standardized brand catalog. We do not track who connects or which contacts are synced.</p>
       <p><strong>Local Processing:</strong> If you choose to compile or export vCards manually, all image rendering and file downloads happen locally in your web browser. None of your selections or actions are sent to our servers.</p>
       <p><strong>Third-Party Services:</strong> We use Google Analytics to monitor aggregate website traffic, and Google AdSense to display advertisements. These third-party providers may use cookies to serve ads and analyze traffic according to their respective privacy policies.</p>
+    </div>
+  </dialog>
+
+  <!-- Terms of Service Dialog -->
+  <dialog id="terms-dialog">
+    <div class="modal-header">
+      <h2>Terms of Service</h2>
+      <button class="modal-close" id="btn-close-terms">&times;</button>
+    </div>
+    <div class="modal-body" style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted); display: flex; flex-direction: column; gap: 1rem;">
+      <p><strong>Terms & Conditions</strong></p>
+      <p>By accessing and using Short Code Icons (<code>shortcodeicons.com</code>), you agree to comply with and be bound by the following terms of service.</p>
+      <p><strong>Use of Service:</strong> Short Code Icons provides free, public, read-only contact profile files (.vcf) and CardDAV sync subscriptions to assist users in identifying corporate shortcode SMS senders. Brand logos and trademarks displayed on this site belong to their respective owners and are used for nominative identification and informational purposes only.</p>
+      <p><strong>No Warranty:</strong> All services, files, and contact profiles are provided "as is" without warranties of any kind. We do not guarantee continuous uninterrupted access to CardDAV sync servers.</p>
+      <p><strong>Limitation of Liability:</strong> In no event shall Short Code Icons be liable for direct or indirect damages arising out of your use or inability to use the site or synced contact files.</p>
     </div>
   </dialog>
 
