@@ -53,6 +53,7 @@ export const BrandStyles = {
   fedex: { type: 'mono', bg: '#4D148C', fg: '#FFFFFF', padding: 0.2 },
   fidelity: { type: 'mono', bg: '#008A00', fg: '#FFFFFF', padding: 0.2 },
   figma: { type: 'mono', bg: '#1E1E1E', fg: '#FFFFFF', padding: 0.2 },
+  filtersfast: { type: 'mono', bg: '#2050A2', fg: '#FFFFFF', padding: 0.22 },
   gap: { type: 'mono', bg: '#00005F', fg: '#FFFFFF', padding: 0.2 },
   github: { type: 'mono', bg: '#181717', fg: '#FFFFFF', padding: 0.2 },
   google: { type: 'color', bg: '#FFFFFF', padding: 0.15 },
@@ -91,6 +92,7 @@ export const BrandStyles = {
   patreon: { type: 'mono', bg: '#FF424D', fg: '#FFFFFF', padding: 0.2 },
   paypal: { type: 'color', bg: '#FFFFFF', padding: 0.18 },
   peacock: { type: 'color', bg: '#000000', padding: 0.18 },
+  pennymac: { type: 'mono', bg: '#002F88', fg: '#FFFFFF', padding: 0.22 },
   petsmart: { type: 'mono', bg: '#E51837', fg: '#FFFFFF', padding: 0.2 },
   pinterest: { type: 'mono', bg: '#E60023', fg: '#FFFFFF', padding: 0.2 },
   pizzahut: { type: 'mono', bg: '#EE1C25', fg: '#FFFFFF', padding: 0.15 },
@@ -147,8 +149,7 @@ export const BrandStyles = {
   wix: { type: 'mono', bg: '#000000', fg: '#FFFFFF', padding: 0.2 },
   xfinity: { type: 'mono', bg: '#000000', fg: '#FFFFFF', padding: 0.22 },
   zara: { type: 'mono', bg: '#000000', fg: '#FFFFFF', padding: 0.22 },
-  zoom: { type: 'mono', bg: '#2D8CFF', fg: '#FFFFFF', padding: 0.2 },
-
+  zoom: { type: 'mono', bg: '#2D8CFF', fg: '#FFFFFF', padding: 0.2 }
 };
 
 const LogoImages = {};

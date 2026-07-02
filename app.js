@@ -63,7 +63,7 @@ const DirectoryData = [
     name: "Amazon",
     fullName: "Amazon Delivery",
     category: "retail",
-    shortcodes: ["38356", "20961"],
+    shortcodes: ["38356","20961"],
     sms: "Your Amazon package is out for delivery."
   },
   {
@@ -189,10 +189,10 @@ const DirectoryData = [
   {
     id: "chase",
     name: "Chase Bank",
-    fullName: "Chase Alerts",
+    fullName: "Chase Bank Alerts",
     category: "finance",
-    shortcodes: ["24273"],
-    sms: "Chase Alert: Large transaction of $50.00 at Target."
+    shortcodes: ["24273","242733"],
+    sms: "Chase Alert: Large transaction of .00 at Target."
   },
   {
     id: "chickfilay",
@@ -391,7 +391,7 @@ const DirectoryData = [
     name: "Fidelity",
     fullName: "Fidelity Alerts",
     category: "finance",
-    shortcodes: ["34335"],
+    shortcodes: ["34335","36726"],
     sms: "Fidelity: Your security code is 123456. Valid for 15 mins."
   },
   {
@@ -401,6 +401,14 @@ const DirectoryData = [
     category: "tech",
     shortcodes: ["34462"],
     sms: "Use 123456 as two-factor authentication code for your Figma account."
+  },
+  {
+    id: "filtersfast",
+    name: "Filters Fast",
+    fullName: "Filters Fast Alerts",
+    category: "services",
+    shortcodes: ["75508"],
+    sms: "Filters Fast: Your order is on the way! Track it here."
   },
   {
     id: "gap",
@@ -423,7 +431,7 @@ const DirectoryData = [
     name: "Google",
     fullName: "Google Verification",
     category: "tech",
-    shortcodes: ["22000", "24444"],
+    shortcodes: ["22000","24444"],
     sms: "G-765359 is your Google verification code. Don't share your code with anyone."
   },
   {
@@ -463,7 +471,7 @@ const DirectoryData = [
     name: "Home Depot",
     fullName: "Home Depot Orders",
     category: "retail",
-    shortcodes: ["433768", "38698"],
+    shortcodes: ["433768","38698"],
     sms: "HOME DEPOT: Your order #12345 is ready for pickup."
   },
   {
@@ -599,7 +607,7 @@ const DirectoryData = [
     name: "Meta / Facebook",
     fullName: "Meta Security",
     category: "tech",
-    shortcodes: ["32665", "32099"],
+    shortcodes: ["32665","32099"],
     sms: "123456 is your Facebook security code."
   },
   {
@@ -607,7 +615,7 @@ const DirectoryData = [
     name: "Microsoft",
     fullName: "Microsoft Security",
     category: "tech",
-    shortcodes: ["87892", "69525"],
+    shortcodes: ["87892","69525"],
     sms: "Use 123456 as Microsoft account security code."
   },
   {
@@ -705,6 +713,14 @@ const DirectoryData = [
     category: "services",
     shortcodes: ["73226"],
     sms: "Peacock TV: 123456 is your security verification code."
+  },
+  {
+    id: "pennymac",
+    name: "PennyMac",
+    fullName: "PennyMac Alerts",
+    category: "finance",
+    shortcodes: ["32024"],
+    sms: "PennyMac: Your verification code is 123456."
   },
   {
     id: "petsmart",
@@ -1007,7 +1023,7 @@ const DirectoryData = [
     name: "Uber",
     fullName: "Uber updates",
     category: "food",
-    shortcodes: ["82371", "92929"],
+    shortcodes: ["82371","92929"],
     sms: "Uber: Your verification code is 1234."
   },
   {
@@ -1039,7 +1055,7 @@ const DirectoryData = [
     name: "USPS",
     fullName: "USPS Text Tracking",
     category: "services",
-    shortcodes: ["28777", "69975"],
+    shortcodes: ["28777","69975"],
     sms: "USPS Text Tracking: Package delivered."
   },
   {
@@ -1103,7 +1119,7 @@ const DirectoryData = [
     name: "Walmart",
     fullName: "Walmart Alerts",
     category: "retail",
-    shortcodes: ["85166", "60989"],
+    shortcodes: ["85166","60989"],
     sms: "Walmart Pharmacy: Your prescription is ready."
   },
   {
@@ -1162,7 +1178,6 @@ const DirectoryData = [
     shortcodes: ["96667"],
     sms: "Your Zoom verification code is 123456. It is valid for 10 minutes."
   }
-
 ];
 
 // App State
